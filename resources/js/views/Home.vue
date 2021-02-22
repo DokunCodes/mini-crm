@@ -29,32 +29,33 @@
 
     </header>
 
+      <h3 class="text-center">Top five Companies on the ROAM CRM</h3>
     <!-- Page Features -->
     <div class="row text-center">
       <div class="col-lg-3 col-md-6 mb-4" v-for="(company,index) in paginatedData()" :key="index">
         <div class="card h-100">
-            <img class="card-img-top" style="width:80%; margin:auto;" :src="company.logo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/company/'+company.logo">
+            <img class="card-img-top" style="width:80%; margin:auto;" :src="company.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': company.company_logo">
           <div class="card-body">
-            <h4 class="card-title">{{company.name}}</h4>
+            <h4 class="card-title">{{company.name}} Company</h4>
+            <h5 class="card-title">{{company.url}}</h5>
+          </div>
 
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">View More</a>
-          </div>
         </div>
       </div>
     </div>
+    <div class="text-center">
+        <a href="#" class="btn btn-lg btn-dark" @click.prevent="prevPage"><</a> <a href="#"  @click.prevent="nextPage" class="btn btn-lg btn-dark"> > </a>
+    </div>
 
-    <a href="#" class="btn btn-sm btn-primary" @click.prevent="prevPage">Prev</a> <a href="#"  @click.prevent="nextPage" class="btn btn-sm btn-primary">Next</a>
     <!-- /.row -->
 
   </div>
   <!-- /.container -->
 
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
+  <footer class="py-5 bg-light">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; CRM</p>
+      <p class="m-0 text-center">Copyright &copy; ROAM CRM, 2021</p>
     </div>
     <!-- /.container -->
   </footer>
@@ -70,7 +71,7 @@ export default {
         companies:[],
         title:'Company List',
         listData:[],
-        size:8,
+        size:5,
         pageNumber:0
       }
     },
@@ -111,12 +112,11 @@ export default {
 }
 .jumbotron {
     color: white;
-	background-color: #be70dc;
+	background-color: #d76928;
 	border-radius: 0.4375rem;
 }
 .navbar-brand-img {
-    width: 60px;
-    height: 50px;
+    max-height: 80px;
 }
 .btn-primary:hover {
 	color: #fff;

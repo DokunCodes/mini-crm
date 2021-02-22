@@ -997,6 +997,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1004,7 +1005,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       companies: [],
       title: 'Company List',
       listData: [],
-      size: 8,
+      size: 5,
       pageNumber: 0
     };
   },
@@ -1219,7 +1220,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\n    color: white;\n\tbackground-color: #be70dc;\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\n    width: 60px;\n    height: 50px;\n}\n.btn-primary[data-v-63cd6604]:hover {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n}\n.btn-primary[data-v-63cd6604] {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n\tbox-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\n\tcolor: rgb(14, 13, 13);\n}\n", ""]);
+exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\n    color: white;\n\tbackground-color: #d76928;\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\n    max-height: 80px;\n}\n.btn-primary[data-v-63cd6604]:hover {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n}\n.btn-primary[data-v-63cd6604] {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n\tbox-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\n\tcolor: rgb(14, 13, 13);\n}\n", ""]);
 
 // exports
 
@@ -2867,6 +2868,10 @@ var render = function() {
     _c("div", { staticClass: "container" }, [
       _vm._m(2),
       _vm._v(" "),
+      _c("h3", { staticClass: "text-center" }, [
+        _vm._v("Top five Companies on the ROAM CRM")
+      ]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "row text-center" },
@@ -2881,19 +2886,21 @@ var render = function() {
                   staticStyle: { width: "80%", margin: "auto" },
                   attrs: {
                     src:
-                      company.logo === null
+                      company.company_logo === null
                         ? "https://dummyimage.com/300.png/09f/fff"
-                        : "profile-pic/company/" + company.logo
+                        : company.company_logo
                   }
                 }),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
                   _c("h4", { staticClass: "card-title" }, [
-                    _vm._v(_vm._s(company.name))
+                    _vm._v(_vm._s(company.name) + " Company")
+                  ]),
+                  _vm._v(" "),
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(company.url))
                   ])
-                ]),
-                _vm._v(" "),
-                _vm._m(3, true)
+                ])
               ])
             ]
           )
@@ -2901,38 +2908,40 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-sm btn-primary",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.prevPage($event)
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-lg btn-dark",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.prevPage($event)
+              }
             }
-          }
-        },
-        [_vm._v("Prev")]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-sm btn-primary",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.nextPage($event)
+          },
+          [_vm._v("<")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-lg btn-dark",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.nextPage($event)
+              }
             }
-          }
-        },
-        [_vm._v("Next")]
-      )
+          },
+          [_vm._v(" > ")]
+        )
+      ])
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -2987,20 +2996,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-        _vm._v("View More")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "py-5 bg-dark" }, [
+    return _c("footer", { staticClass: "py-5 bg-light" }, [
       _c("div", { staticClass: "container" }, [
-        _c("p", { staticClass: "m-0 text-center text-white" }, [
-          _vm._v("Copyright © CRM")
+        _c("p", { staticClass: "m-0 text-center" }, [
+          _vm._v("Copyright © ROAM CRM, 2021")
         ])
       ])
     ])
