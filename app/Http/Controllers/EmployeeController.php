@@ -117,7 +117,7 @@ class EmployeeController extends Controller {
         $page = isset($body['page']) ? $body['page'] : "";
 
         $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,avatar
-        as profile_photo,company_id,user_id,email, (SELECT name FROM company where user_id = company_id) AS company_name'));
+        as profile_photo,company_id,user_id,email, company_id as cid, (SELECT name FROM company where company_id = cid) AS company_name'));
 
 
         //check is user is a company

@@ -1,12 +1,12 @@
 <template>
     <div>
         <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
-           
+
         </base-header>
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                 
+
                     <div class="card shadow">
                       <div class="card-header border-0">
                         <div class="row align-items-center">
@@ -16,7 +16,7 @@
                             </h3>
                           </div>
                           <div class="col text-right">
-                            <base-button type="primary" size="sm" @click="showModal = true">Add Company</base-button>
+                            <base-button type="primary" class="btn btn-dark" size="sm" @click="showModal = true">Add Company</base-button>
                           </div>
                         </div>
                       </div>
@@ -26,11 +26,10 @@
                                 tbody-classes="list"
                                 :data="companies">
                                 <template slot="columns">
-                                  <th>comapny name</th>
-                                  <th>Contact Person</th>
+                                  <th>Company name</th>
                                   <th>Url</th>
                                   <th>Employees</th>
-                                  <th>Email</th>
+                                    <th>Email</th>
                                   <th></th>
                                 </template>
 
@@ -38,38 +37,36 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/company/'+row.company_logo" >
-                                       
+                                        <img alt="Image placeholder" :src="row.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': row.company_logo" >
+
                                       </a>
                                       <div class="media-body">
                                         <span class="name mb-0 text-sm">{{row.name}}</span>
                                       </div>
                                     </div>
                                   </th>
-                                  <td class="budget">
-                                    {{row.contact_person}}
-                                  </td>
+
                                   <td>
                                     <badge class="badge-dot mr-4">
-                                      
+
                                       <span class="status">{{row.url}}</span>
                                     </badge>
                                   </td>
                                   <td>
                                     <badge class="badge-dot mr-4">
-                                      
+
                                       <span class="status">{{row.employee_count}}</span>
                                     </badge>
                                   </td>
                                   <td>
                                     <badge class="badge-dot mr-4">
-                                      
+
                                       <span class="status">{{row.email}}</span>
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" size="sm" @click="editCompany(row)" >Edit</base-button>
-                                    <base-button type="danger" size="sm" @click="deleteCompany(row)" >Delete</base-button>
+                                    <base-button type="primary" class="btn btn-info" size="sm" @click="editCompany(row)" >Edit</base-button>
+                                    <base-button type="danger" class="btn btn-danger" size="sm" @click="deleteCompany(row)" >Delete</base-button>
                                   </td>
 
                                 </template>
@@ -77,7 +74,7 @@
                               </base-table>
                             </div>
 
-              
+
                             </div>
                           </div>
                       </div>
@@ -91,10 +88,6 @@
                                     v-model="model.name">
                         </base-input>
 
-                        <base-input class="input-group-alternative mb-3"
-                                    placeholder="Contact person"
-                                    v-model="model.contact_person">
-                        </base-input>
 
                         <base-input class="input-group-alternative mb-3"
                                     placeholder="Website URL"
@@ -124,12 +117,12 @@
                                         <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
                                       </div>
                                     </div>
-                            
+
                         </div>
-                        <div class="text-center">
-                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="my-4">{{submitProgress ? 'Updating company...' : 'Update Company'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding company...' : 'Create Company'}}</base-button><br />
-                            <a href="#" @click.prevent="closeForm">Close form</a>
+                        <div class="text-center mt-3">
+                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="btn btn-dark">{{submitProgress ? 'Updating company...' : 'Update Company'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="btn btn-dark">{{submitProgress ? 'Adding company...' : 'Create Company'}}</base-button><br />
+                            <a href="#" @click.prevent="closeForm">Cancel</a>
                         </div>
               </form>
           </modal>
@@ -145,7 +138,7 @@
         employees:[],
         companies:[],
         title:'Companies List',
-        model:{name:"",contact_person:"",url:"", email:"", password:"", company:"",user_id:""},
+        model:{name:"",url:"", email:"", password:"", company:"",user_id:""},
         showModal : false,
         editMode : false,
         submitProgress:false,
@@ -154,11 +147,10 @@
       }
     },
     methods: {
-        
+
         editCompany(row){
-          
+
             this.model.name = row.name
-            this.model.contact_person = row.contact_person
             this.model.url = row.url
             this.model.email = row.email
             this.model.user_id = row.companyid
@@ -231,7 +223,6 @@
                 this.showModal = false;
                 this.submitProgress = false;
                 this.model.name = ""
-                this.model.contact_person = ""
                 this.model.url = ""
                 this.model.email = ""
                 this.model.user_id = ""
@@ -256,7 +247,7 @@
                     })
               })
           })
-          
+
         }
     },
     mounted(){

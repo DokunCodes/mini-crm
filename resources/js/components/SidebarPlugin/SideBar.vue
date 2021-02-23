@@ -2,7 +2,7 @@
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <router-link class="navbar-brand" to="/">
-                <img src="img/crm.png" class="navbar-brand-img" alt="...">
+                <img src="img/crm_logo.png" style="max-height: 80px" class="navbar-brand-img" alt="...">
             </router-link>
 
             <slot name="mobile-right">
@@ -88,7 +88,7 @@
     props: {
       logo: {
         type: String,
-        default: 'img/brand/green.png',
+        default: 'img/crm_logo.png',
         description: 'Sidebar app logo'
       },
       autoClose: {

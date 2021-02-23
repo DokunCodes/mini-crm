@@ -417,13 +417,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -434,7 +427,6 @@ __webpack_require__.r(__webpack_exports__);
       title: 'Companies List',
       model: {
         name: "",
-        contact_person: "",
         url: "",
         email: "",
         password: "",
@@ -451,7 +443,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editCompany: function editCompany(row) {
       this.model.name = row.name;
-      this.model.contact_person = row.contact_person;
       this.model.url = row.url;
       this.model.email = row.email;
       this.model.user_id = row.companyid;
@@ -534,7 +525,6 @@ __webpack_require__.r(__webpack_exports__);
         _this3.showModal = false;
         _this3.submitProgress = false;
         _this3.model.name = "";
-        _this3.model.contact_person = "";
         _this3.model.url = "";
         _this3.model.email = "";
         _this3.model.user_id = "";
@@ -669,6 +659,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _repository_users_EmployeeRepository__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../repository/users/EmployeeRepository */ "./resources/js/repository/users/EmployeeRepository.js");
 /* harmony import */ var _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../repository/users/CompanyRepository */ "./resources/js/repository/users/CompanyRepository.js");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1844,6 +1839,7 @@ var render = function() {
                       _c(
                         "base-button",
                         {
+                          staticClass: "btn btn-dark",
                           attrs: { type: "primary", size: "sm" },
                           on: {
                             click: function($event) {
@@ -1897,8 +1893,7 @@ var render = function() {
                                             src:
                                               row.company_logo === null
                                                 ? "https://dummyimage.com/300.png/09f/fff"
-                                                : "profile-pic/company/" +
-                                                  row.company_logo
+                                                : row.company_logo
                                           }
                                         })
                                       ]
@@ -1912,14 +1907,6 @@ var render = function() {
                                       )
                                     ])
                                   ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "budget" }, [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(row.contact_person) +
-                                    "\n                              "
                                 )
                               ]),
                               _vm._v(" "),
@@ -1978,6 +1965,7 @@ var render = function() {
                                   _c(
                                     "base-button",
                                     {
+                                      staticClass: "btn btn-info",
                                       attrs: { type: "primary", size: "sm" },
                                       on: {
                                         click: function($event) {
@@ -1991,6 +1979,7 @@ var render = function() {
                                   _c(
                                     "base-button",
                                     {
+                                      staticClass: "btn btn-danger",
                                       attrs: { type: "danger", size: "sm" },
                                       on: {
                                         click: function($event) {
@@ -2010,9 +1999,7 @@ var render = function() {
                     },
                     [
                       _c("template", { slot: "columns" }, [
-                        _c("th", [_vm._v("comapny name")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Contact Person")]),
+                        _c("th", [_vm._v("Company name")]),
                         _vm._v(" "),
                         _c("th", [_vm._v("Url")]),
                         _vm._v(" "),
@@ -2051,18 +2038,6 @@ var render = function() {
                   _vm.$set(_vm.model, "name", $$v)
                 },
                 expression: "model.name"
-              }
-            }),
-            _vm._v(" "),
-            _c("base-input", {
-              staticClass: "input-group-alternative mb-3",
-              attrs: { placeholder: "Contact person" },
-              model: {
-                value: _vm.model.contact_person,
-                callback: function($$v) {
-                  _vm.$set(_vm.model, "contact_person", $$v)
-                },
-                expression: "model.contact_person"
               }
             }),
             _vm._v(" "),
@@ -2188,7 +2163,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "text-center" },
+              { staticClass: "text-center mt-3" },
               [
                 _c(
                   "base-button",
@@ -2201,7 +2176,7 @@ var render = function() {
                         expression: "editMode"
                       }
                     ],
-                    staticClass: "my-4",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "primary" },
                     on: {
                       click: function($event) {
@@ -2233,7 +2208,7 @@ var render = function() {
                         expression: "!editMode"
                       }
                     ],
-                    staticClass: "my-4",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "primary" },
                     on: {
                       click: function($event) {
@@ -2265,7 +2240,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Close form")]
+                  [_vm._v("Cancel")]
                 )
               ],
               1
@@ -2307,7 +2282,7 @@ var render = function() {
         "base-header",
         {
           staticClass: "pb-6 pb-8 pt-5 pt-md-8",
-          attrs: { type: "gradient-success" }
+          attrs: { type: "gradient-info" }
         },
         [
           _c("div", { staticClass: "row" }, [
@@ -2319,9 +2294,9 @@ var render = function() {
                   staticClass: "mb-4 mb-xl-0",
                   attrs: {
                     title: "Companies",
-                    type: "gradient-orange",
+                    type: "gradient-red",
                     "sub-title": "" + _vm.companies,
-                    icon: "ni ni-chart-pie-35"
+                    icon: "ni ni-pin-3"
                   }
                 })
               ],
@@ -2395,7 +2370,7 @@ var render = function() {
     [
       _c("base-header", {
         staticClass: "pb-6 pb-8 pt-5 pt-md-8",
-        attrs: { type: "gradient-success" }
+        attrs: { type: "gradient-info" }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "container-fluid mt--7" }, [
@@ -2421,6 +2396,7 @@ var render = function() {
                       _c(
                         "base-button",
                         {
+                          staticClass: "btn btn-dark",
                           attrs: { type: "primary", size: "sm" },
                           on: {
                             click: function($event) {
@@ -2474,20 +2450,11 @@ var render = function() {
                                             src:
                                               row.profile_photo === null
                                                 ? "https://dummyimage.com/300.png/09f/fff"
-                                                : "profile-pic/employee/" +
-                                                  row.profile_photo
+                                                : row.profile_photo
                                           }
                                         })
                                       ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "media-body" }, [
-                                      _c(
-                                        "span",
-                                        { staticClass: "name mb-0 text-sm" },
-                                        [_vm._v(_vm._s(row.first_name))]
-                                      )
-                                    ])
+                                    )
                                   ]
                                 )
                               ]),
@@ -2495,8 +2462,24 @@ var render = function() {
                               _c("td", { staticClass: "budget" }, [
                                 _vm._v(
                                   "\n                                " +
-                                    _vm._s(row.last_name) +
+                                    _vm._s(row.first_name) +
                                     "\n                              "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "budget" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(row.last_name) +
+                                    "\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "budget" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(row.email) +
+                                    "\n                                "
                                 )
                               ]),
                               _vm._v(" "),
@@ -2530,6 +2513,7 @@ var render = function() {
                                   _c(
                                     "base-button",
                                     {
+                                      staticClass: "btn btn-info",
                                       attrs: { type: "primary", size: "sm" },
                                       on: {
                                         click: function($event) {
@@ -2543,6 +2527,7 @@ var render = function() {
                                   _c(
                                     "base-button",
                                     {
+                                      staticClass: "btn btn-danger",
                                       attrs: { type: "danger", size: "sm" },
                                       on: {
                                         click: function($event) {
@@ -2562,9 +2547,13 @@ var render = function() {
                     },
                     [
                       _c("template", { slot: "columns" }, [
+                        _c("th"),
+                        _vm._v(" "),
                         _c("th", [_vm._v("First name")]),
                         _vm._v(" "),
                         _c("th", [_vm._v("Last name")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Email")]),
                         _vm._v(" "),
                         _c("th", [_vm._v("Company")]),
                         _vm._v(" "),
@@ -2709,7 +2698,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "text-center" },
+              { staticClass: "text-center mt-3" },
               [
                 _c(
                   "base-button",
@@ -2722,7 +2711,7 @@ var render = function() {
                         expression: "editMode"
                       }
                     ],
-                    staticClass: "my-4",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "primary" },
                     on: {
                       click: function($event) {
@@ -2754,7 +2743,7 @@ var render = function() {
                         expression: "!editMode"
                       }
                     ],
-                    staticClass: "my-4",
+                    staticClass: "btn btn-dark",
                     attrs: { type: "primary" },
                     on: {
                       click: function($event) {
@@ -2786,7 +2775,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Close form")]
+                  [_vm._v("Cancel")]
                 )
               ],
               1

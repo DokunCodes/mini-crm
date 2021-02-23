@@ -1,12 +1,12 @@
 <template>
     <div>
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
-           
+        <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
+
         </base-header>
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                 
+
                     <div class="card shadow">
                       <div class="card-header border-0">
                         <div class="row align-items-center">
@@ -16,7 +16,7 @@
                             </h3>
                           </div>
                           <div class="col text-right">
-                            <base-button type="primary" size="sm" @click="showModal = true">Add Employee</base-button>
+                            <base-button type="primary" class="btn btn-dark" size="sm" @click="showModal = true">Add Employee</base-button>
                           </div>
                         </div>
                       </div>
@@ -26,8 +26,10 @@
                                 tbody-classes="list"
                                 :data="employees">
                                 <template slot="columns">
+                                    <th></th>
                                   <th>First name</th>
                                   <th>Last name</th>
+                                  <th>Email</th>
                                   <th>Company</th>
                                   <th></th>
                                 </template>
@@ -36,17 +38,20 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/employee/'+row.profile_photo" >
-                                        
+                                        <img alt="Image placeholder" :src="row.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': row.profile_photo" >
+
                                       </a>
-                                      <div class="media-body">
-                                        <span class="name mb-0 text-sm">{{row.first_name}}</span>
-                                      </div>
                                     </div>
                                   </th>
                                   <td class="budget">
-                                    {{row.last_name}}
+                                    {{row.first_name}}
                                   </td>
+                                    <td class="budget">
+                                        {{row.last_name}}
+                                    </td>
+                                    <td class="budget">
+                                        {{row.email}}
+                                    </td>
                                   <td>
                                     <badge class="badge-dot mr-4" :type="row.statusType">
                                       <i :class="`bg-${row.statusType}`"></i>
@@ -54,8 +59,8 @@
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" size="sm" @click="editEmployee(row)" >Edit</base-button>
-                                    <base-button type="danger" size="sm" @click="deleteEmployee(row)" >Delete</base-button>
+                                    <base-button type="primary" class="btn btn-info" size="sm" @click="editEmployee(row)" >Edit</base-button>
+                                    <base-button type="danger" size="sm" class="btn btn-danger" @click="deleteEmployee(row)" >Delete</base-button>
                                   </td>
 
                                 </template>
@@ -63,7 +68,7 @@
                               </base-table>
                             </div>
 
-              
+
                             </div>
                           </div>
                       </div>
@@ -97,15 +102,15 @@
                             <option value="">Select company</option>
                             <option v-for="(company,index) in companies" :key="index" :value="company.companyid">{{company.name}}</option>
                         </select>
-                        
+
                         <div class="text-muted mt-2" v-show="!editMode">
                             <p>Photo</p>
                             <input type="file" ref="filePic" name="employee_photo" />
                         </div>
-                        <div class="text-center">
-                            <base-button type="primary" @click.prevent="updateEmployee" v-show="editMode" class="my-4">{{submitProgress ? 'Updating employee...' : 'Update Employee'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addEmployee" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding employee...' : 'Create Employee'}}</base-button><br />
-                            <a href="#" @click.prevent="closeForm">Close form</a>
+                        <div class="text-center mt-3">
+                            <base-button type="primary" @click.prevent="updateEmployee" v-show="editMode" class="btn btn-dark">{{submitProgress ? 'Updating employee...' : 'Update Employee'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addEmployee" v-show="!editMode" class="btn btn-dark">{{submitProgress ? 'Adding employee...' : 'Create Employee'}}</base-button><br />
+                            <a href="#" @click.prevent="closeForm">Cancel</a>
                         </div>
               </form>
           </modal>
@@ -139,7 +144,7 @@
           this.editMode = this.editMode ? false : true;
         },
         editEmployee(row){
-          
+
             this.model.first_name = row.first_name
             this.model.last_name = row.last_name
             this.model.email = row.email
@@ -217,7 +222,7 @@
                     })
               })
           })
-          
+
         }
     },
     mounted(){

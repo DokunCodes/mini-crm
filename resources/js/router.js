@@ -60,13 +60,13 @@ const router = new Router({
         },
         {
           path: '/companies',
-          name: 'maps',
+          name: 'Companies',
           requiresAuth:true,
           component: () => import(/* webpackChunkName: "demo" */ './views/Company')
         },
         {
           path: '/admin-users',
-          name: 'tables',
+          name: 'Admin',
           meta:{
             requiresAuth:true,
           },

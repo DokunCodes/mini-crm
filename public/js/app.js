@@ -7228,7 +7228,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     logo: {
       type: String,
-      "default": 'img/brand/green.png',
+      "default": 'img/crm_logo.png',
       description: 'Sidebar app logo'
     },
     autoClose: {
@@ -7567,8 +7567,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sidebarBackground: 'vue',
-      userType: _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.getUserData().type //vue|blue|orange|green|red|primary
-
+      userType: _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.getUserData().type
     };
   },
   methods: {
@@ -65551,7 +65550,8 @@ var render = function() {
             [
               _c("img", {
                 staticClass: "navbar-brand-img",
-                attrs: { src: "img/crm.png", alt: "..." }
+                staticStyle: { "max-height": "80px" },
+                attrs: { src: "img/crm_logo.png", alt: "..." }
               })
             ]
           ),
@@ -66297,7 +66297,7 @@ var render = function() {
                 attrs: {
                   link: {
                     name: "Logout",
-                    icon: "ni ni-key-25 text-info",
+                    icon: "fa fa-lock text-info",
                     path: "/logout"
                   }
                 }
@@ -83890,14 +83890,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       }
     }, {
       path: '/companies',
-      name: 'maps',
+      name: 'Companies',
       requiresAuth: true,
       component: function component() {
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Company */ "./resources/js/views/Company.vue"));
       }
     }, {
       path: '/admin-users',
-      name: 'tables',
+      name: 'Admin',
       meta: {
         requiresAuth: true
       },

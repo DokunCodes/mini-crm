@@ -19,7 +19,7 @@
         <sidebar-item v-show="userType === 'admin'" :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/companies'}"/>
         <sidebar-item v-show="userType === 'admin'" :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/admin-users'}"/>
         <sidebar-item v-show="userType === 'admin' || userType === 'company' || userType === 'employee'" :link="{name: 'Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Logout', icon: 'ni ni-key-25 text-info', path: '/logout'}"/>
+        <sidebar-item :link="{name: 'Logout', icon: 'fa fa-lock text-info', path: '/logout'}"/>
 
       </template>
     </side-bar>
@@ -50,7 +50,7 @@
     data() {
       return {
         sidebarBackground: 'vue',
-        userType: TokenService.getUserData().type //vue|blue|orange|green|red|primary
+        userType: TokenService.getUserData().type
       };
     },
     methods: {
