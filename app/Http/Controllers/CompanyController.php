@@ -37,16 +37,14 @@ class CompanyController extends Controller {
             'email.required' => 'Please enter your username',
             'password.required' => 'Please enter your password',
             'name.required' => 'Please enter company name',
-            'contact_person.required' => 'Please enter contact person',
-            'url.required' => 'Please enter url',
+            'url.required' => 'Please enter url'
         ];
 
         $rules = [
             'email' => 'required|email|unique:users',
             'password' => 'required|min:2',
             'name' => 'required|min:2',
-            'contact_person' => 'required|min:2',
-            'url' => 'required|min:2',
+            'url' => 'required|min:2'
         ];
 
         if($request->hasFile('logo')){
@@ -70,16 +68,16 @@ class CompanyController extends Controller {
             $user->save();
 
             if($request->hasFile('logo')){
-                $filename = time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
+                $filename = "profile-pic/company/".time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/company/");
                 $image->move($path,$filename);
             }
 
             //add conpamy data
-            $this->companyModel->user_id = $user->id;
+            $this->companyModel->company_id = $user->id;
             $this->companyModel->name = $form['name'];
-            $this->companyModel->contact_person = $form['contact_person'];
             $this->companyModel->url = $form['url'];
+            $this->companyModel->email = $form['email'];
             $this->companyModel->logo = $filename;
             $this->companyModel->save();
 
@@ -94,9 +92,9 @@ class CompanyController extends Controller {
     public function deleteCompany(Request $request, $id){
         $userID = $id;
         if(empty($id)){
-            return response()->json(["status"=>false, "error"=>"bad request", "message"=>"compay id not set"],400);
+            return response()->json(["status"=>false, "error"=>"bad request", "message"=>"company id not set"],400);
         }else{
-            $result = $this->companyModel::where('user_id',$userID)->delete();
+            $result = $this->companyModel::where('company_id',$userID)->delete();
 
             if($result === 1){
                 $this->userModel::where('id',$userID)->delete();
@@ -129,9 +127,9 @@ class CompanyController extends Controller {
 
     public function getOneCompany(Request $request, $id){
         if(empty($id)){
-            return response()->json(["status"=>false, "error"=>"bad request", "message"=>"compay id not set"],400);
+            return response()->json(["status"=>false, "error"=>"bad request", "message"=>"company id not set"],400);
         }else{
-            $company = $this->companyModel::where('user_id',$id)->first();
+            $company = $this->companyModel::where('company_id',$id)->first();
             if(!empty($company)){
                 return $this->responses::getSuccess(["company"=>$company]);
             }else{
@@ -142,9 +140,9 @@ class CompanyController extends Controller {
 
     public function getProfile(Request $request){
         $form = $request->all();
-        $company = $this->companyModel->select(DB::raw("name,contact_person,url,logo AS company_logo,
-        user_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"))
-        ->where('user_id',$form['user']->id)->firstOrFail();
+        $company = $this->companyModel->select(DB::raw("name,url,logo AS company_logo,
+        company_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"))
+        ->where('company_id',$form['user']->id)->firstOrFail();
         return $this->responses::getSuccess(["user"=>$company]);
     }
 
@@ -157,15 +155,15 @@ class CompanyController extends Controller {
             'name.required' => 'Please enter company name',
             'contact_person.required' => 'Please enter contact person',
             'url.required' => 'Please enter url',
-            'user_id.required' => 'Please enter company user id',
+            'company_id.required' => 'Please enter company user id',
         ];
 
         $rules = [
             'name' => 'required|min:2',
             'contact_person' => 'required|min:2',
-            'email' => 'email|unique:users,email,'.$form['user_id'],
+            'email' => 'email|unique:users,email,'.$form['company_id'],
             'url' => 'required|min:2',
-            'user_id' => 'required',
+            'company_id' => 'required',
         ];
 
         //start the validation
@@ -181,11 +179,11 @@ class CompanyController extends Controller {
                 if(isset($form['password']))
                     $userData["password"]=$this->hash::make($form['password']);
 
-                $this->userModel::where('id',$form['user_id'])->update($userData);
+                $this->userModel::where('id',$form['company_id'])->update($userData);
             }
 
 
-            $result = $this->companyModel::where('user_id',$form['user_id'])
+            $result = $this->companyModel::where('company_id',$form['user_id'])
             ->update(["name"=>$form['name'],"contact_person"=>$form['contact_person'],"url"=>$form['url']]);
 
             if($result === 1){
@@ -215,7 +213,7 @@ class CompanyController extends Controller {
                 $filename = time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/company/");
                 $image->move($path,$filename);
-                $result = $this->companyModel::where('user_id',$user->id)
+                $result = $this->companyModel::where('company_id',$user->id)
                 ->update(["logo"=>$filename]);
                 return $this->responses::getSuccess([],"Image uploaded successfully");
             }

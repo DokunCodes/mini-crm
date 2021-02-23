@@ -138,7 +138,7 @@
         employees:[],
         companies:[],
         title:'Companies List',
-        model:{name:"",url:"", email:"", password:"", company:"",user_id:""},
+        model:{name:"",url:"", email:"", password:"", company:"",company_id:""},
         showModal : false,
         editMode : false,
         submitProgress:false,
@@ -153,7 +153,7 @@
             this.model.name = row.name
             this.model.url = row.url
             this.model.email = row.email
-            this.model.user_id = row.companyid
+            this.model.company_id = row.companyid
             this.showModal = true;
             this.editMode = true;
         },
@@ -225,7 +225,7 @@
                 this.model.name = ""
                 this.model.url = ""
                 this.model.email = ""
-                this.model.user_id = ""
+                this.model.company_id = ""
                 this.showModal = false;
                 this.editMode = false;
                 this.$notify({

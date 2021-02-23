@@ -56,21 +56,22 @@ class UserController extends Controller{
 
             if($this->hash::check($form['password'],$user->password)){
                 $jwt =  $this->jwt::fromUser($user);
-                
+
                 $userData = [];
-                
+
                 switch($user->user_type){
                     case "admin":
                         $admin = $this->admin::where('user_id',$user->id)->firstOrFail(['first_name','last_name']);
                         $userData['name'] = $admin->first_name." ".$admin->last_name;
-                        
+
                     break;
                     case "employee":
                         $employee = $this->employee::where('user_id',$user->id)->firstOrFail(['first_name','last_name']);
                         $userData['name'] = $employee->first_name." ".$employee->last_name;
                     break;
                     case "company":
-                        $company = $this->company::where('user_id',$user->id)->firstOrFail(['name']);
+                        $comp = $this->employee::where('user_id',$user->id)->firstOrFail(['company_id']);
+                        $company = $this->company::where('company_id',$comp->company_id)->firstOrFail(['name']);
                         $userData['name'] = $company->name;
                     break;
                 }
@@ -94,7 +95,7 @@ class UserController extends Controller{
         $form = $request->all();
 
         $user =  !empty($id) ? $this->userModel::findOrFail($id) : $form['user'];
-        
+
         $response= [];
         //set validation rules and messages
         $messages = [
@@ -111,7 +112,7 @@ class UserController extends Controller{
         $validator = $this->validator::make($form,$rules,$messages);
 
         if(!$validator->fails()){
-            
+
             $user->email = $form['email'];
             $user->user_type = $form['user_type'];
             if(isset($form['password']) && !empty($form['password'])){

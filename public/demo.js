@@ -431,7 +431,7 @@ __webpack_require__.r(__webpack_exports__);
         email: "",
         password: "",
         company: "",
-        user_id: ""
+        company_id: ""
       },
       showModal: false,
       editMode: false,
@@ -445,7 +445,7 @@ __webpack_require__.r(__webpack_exports__);
       this.model.name = row.name;
       this.model.url = row.url;
       this.model.email = row.email;
-      this.model.user_id = row.companyid;
+      this.model.company_id = row.companyid;
       this.showModal = true;
       this.editMode = true;
     },
@@ -527,7 +527,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.model.name = "";
         _this3.model.url = "";
         _this3.model.email = "";
-        _this3.model.user_id = "";
+        _this3.model.company_id = "";
         _this3.showModal = false;
         _this3.editMode = false;
 
