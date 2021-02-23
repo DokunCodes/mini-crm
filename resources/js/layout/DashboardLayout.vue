@@ -15,7 +15,7 @@
           }"
         />
 
-        <sidebar-item v-show="userType === 'admin' || userType === 'company'" :link="{name: 'Employees', icon: 'ni ni-planet text-blue', path: '/employees'}"/>
+        <sidebar-item v-show="userType === 'admin' || userType === 'company'" :link="{name: 'Employees', icon: 'fa fa-users text-green', path: '/employees'}"/>
         <sidebar-item v-show="userType === 'admin'" :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/companies'}"/>
         <sidebar-item v-show="userType === 'admin'" :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/admin-users'}"/>
         <sidebar-item v-show="userType === 'admin' || userType === 'company' || userType === 'employee'" :link="{name: 'Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>

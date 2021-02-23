@@ -84,7 +84,7 @@ class EmployeeController extends Controller {
             $this->employeeModel->photo = $filename;
             $this->employeeModel->save();
 
-            
+
             return $this->responses::getSuccessNewResource();
 
         }else{
@@ -98,7 +98,7 @@ class EmployeeController extends Controller {
             return $this->responses::getBadRequest("employee id not set");
         }else{
             $result = $this->employeeModel::where('user_id',$userID)->delete();
-            
+
             if($result === 1){
                 $this->userModel::where('id',$userID)->delete();
                 //add conpamy data
@@ -116,10 +116,10 @@ class EmployeeController extends Controller {
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
 
-        $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,photo  
-        as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'));
+        $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,avatar
+        as profile_photo,company_id,user_id,email, (SELECT name FROM company where user_id = company_id) AS company_name'));
 
-        
+
         //check is user is a company
         if($user->user_type === "company"){
             $employeeObj->where('company_id',$user->id);
@@ -149,7 +149,7 @@ class EmployeeController extends Controller {
             return $this->responses::getSuccess(["employee"=>$company]);
         }
     }
-    
+
     public function updateEmployee(Request $request){
         $form = $request->all();
         $image = null;
@@ -196,7 +196,7 @@ class EmployeeController extends Controller {
                 if(isset($form['email']))
                     $userData["email"]=$form['email'];
                 if(isset($form['password']))
-                    $userData["password"]=$this->hash::make($form['password']);    
+                    $userData["password"]=$this->hash::make($form['password']);
 
                 $this->userModel::where('id',$form['user_id'])->update($userData);
             }
@@ -217,11 +217,11 @@ class EmployeeController extends Controller {
                  //get last updated entry
                  $user =  $this->employeeModel::where('user_id',$form['user_id'])->first();
                  return $this->responses::getSuccess(["employee"=>$user],"updated");
-                
+
             }else{
                 return $this->responses::getNoFound("employee does not exist");
             }
-           
+
         }else{
             throw new ValidationException($validator);
         }

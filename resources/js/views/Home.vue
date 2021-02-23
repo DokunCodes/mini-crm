@@ -118,17 +118,7 @@ export default {
 .navbar-brand-img {
     max-height: 80px;
 }
-.btn-primary:hover {
-	color: #fff;
-	background-color: #a5d80c;
-	border-color: #a5d80c;
-}
-.btn-primary {
-	color: #fff;
-	background-color: #a5d80c;
-	border-color: #a5d80c;
-	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
+
 .navbar-dark .navbar-nav .nav-link {
 	color: rgb(14, 13, 13);
 }

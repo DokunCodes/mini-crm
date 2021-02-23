@@ -1123,8 +1123,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -1145,9 +1143,9 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$validator.validate().then(function (valid) {
         if (valid) {
-          _this.buttonText = "Loggin in...";
+          _this.buttonText = "Please wait...";
           _repository_users_UserRepository__WEBPACK_IMPORTED_MODULE_0__["default"].login(_this.model).then(function (res) {
-            _this.buttonText = "Sign in";
+            _this.buttonText = "Sign In";
             var userData = res.data.data.user;
             _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.setUserData({
               name: userData.name,
@@ -1163,7 +1161,7 @@ __webpack_require__.r(__webpack_exports__);
             if (userData.acct_type === "admin") {
               window.location.href = "./dashboard";
             } else {
-              window.location.href = "./profile"; //this.$router.push('./profile')
+              window.location.href = "./profile";
             }
           })["catch"](function (err) {
             if (err.status === 404) {
@@ -1220,7 +1218,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\n    color: white;\n\tbackground-color: #d76928;\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\n    max-height: 80px;\n}\n.btn-primary[data-v-63cd6604]:hover {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n}\n.btn-primary[data-v-63cd6604] {\n\tcolor: #fff;\n\tbackground-color: #a5d80c;\n\tborder-color: #a5d80c;\n\tbox-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\n\tcolor: rgb(14, 13, 13);\n}\n", ""]);
+exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\n    color: white;\n\tbackground-color: #d76928;\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\n    max-height: 80px;\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\n\tcolor: rgb(14, 13, 13);\n}\n", ""]);
 
 // exports
 
@@ -2340,7 +2338,7 @@ var render = function() {
                     title: "Employees",
                     type: "gradient-green",
                     "sub-title": "" + _vm.employee,
-                    icon: "ni ni-money-coins"
+                    icon: "fa fa-users"
                   }
                 })
               ],
@@ -3045,11 +3043,7 @@ var render = function() {
                 ],
                 staticClass: "input-group-alternative mb-3",
                 class: { "is-invalid": _vm.errors.has("email") },
-                attrs: {
-                  placeholder: "Email",
-                  "addon-left-icon": "ni ni-email-83",
-                  name: "email"
-                },
+                attrs: { placeholder: "Email", name: "email" },
                 model: {
                   value: _vm.model.email,
                   callback: function($$v) {
@@ -3089,7 +3083,6 @@ var render = function() {
                 attrs: {
                   placeholder: "Password",
                   type: "password",
-                  "addon-left-icon": "ni ni-lock-circle-open",
                   name: "password"
                 },
                 model: {
@@ -3124,7 +3117,7 @@ var render = function() {
                   _c(
                     "base-button",
                     {
-                      staticClass: "my-4",
+                      staticClass: "btn-dark",
                       attrs: { type: "primary" },
                       on: { click: _vm.loginUser }
                     },

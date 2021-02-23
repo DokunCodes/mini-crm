@@ -1,66 +1,24 @@
 <template>
-    <div class="main-content bg-default">
-        <!-- Navbar -->
-        <base-nav class="navbar-top navbar-horizontal navbar-dark"
-                  containerClasses="px-4 container"
-                  expand>
-            <router-link slot="brand" class="navbar-brand" to="/">
-                <img src="img/brand/white.png"/>
-            </router-link>
 
-            <template v-slot="{closeMenu}">
-                <!-- Collapse header -->
-                <div class="navbar-collapse-header d-md-none">
-                    <div class="row">
-                        <div class="col-6 collapse-brand">
-                            <router-link to="/">
-                                <img src="img/brand/green.png">
-                            </router-link>
-                        </div>
-                        <div class="col-6 collapse-close">
-                            <button type="button"
-                                    @click="closeMenu"
-                                    class="navbar-toggler"
-                                    aria-label="Toggle sidenav">
-                                <span></span>
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Navbar items -->
-                <!-- <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/">
-                            <i class="ni ni-planet"></i>
-                            <span class="nav-link-inner--text">Dashboard</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/register">
-                            <i class="ni ni-circle-08"></i>
-                            <span class="nav-link-inner--text">Register</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/login">
-                            <i class="ni ni-key-25"></i>
-                            <span class="nav-link-inner--text">Login</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/profile">
-                            <i class="ni ni-single-02"></i>
-                            <span class="nav-link-inner--text">Profile</span>
-                        </router-link>
-                    </li>
-                </ul> -->
-            </template>
-        </base-nav>
+    <div class="main-content bg-default">
+
+
+
         <!-- Header -->
-        <div class="header bg-gradient-success py-7 py-lg-8">
+        <div class="header py-7 py-lg-8">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top">
+                <div class="container">
+                    <router-link slot="brand" class="navbar-brand" to="/">
+                    <a class="navbar-brand" href="#"><img src="img/crm_logo.png" class="navbar-brand-img" alt="CRM Logo"></a>
+                    </router-link>
+<!--                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                        <span class="navbar-toggler-icon"></span>-->
+<!--                    </button>-->
+
+                </div>
+            </nav>
             <div class="container">
-                <div class="header-body text-center mb-7">
+                <div class="header-body text-center pt-7 mb-3">
                     <div class="row justify-content-center">
                         <div class="col-lg-5 col-md-6">
                             <h1 class="text-white">Welcome!</h1>
@@ -82,14 +40,15 @@
                 <router-view></router-view>
             </slide-y-up-transition>
         </div>
-        <footer class="py-5">
+        <!-- Footer -->
+        <footer class="py-5 bg-light">
             <div class="container">
-                <div class="row align-items-center justify-content-xl-between">
-                    
-                </div>
+                <p class="m-0 text-center">Copyright &copy; ROAM CRM, 2021</p>
             </div>
+            <!-- /.container -->
         </footer>
     </div>
+
 </template>
 <script>
   import { SlideYUpTransition } from 'vue2-transitions'
@@ -108,4 +67,7 @@
   }
 </script>
 <style>
+    .navbar-brand-img {
+        max-height: 80px;
+    }
 </style>

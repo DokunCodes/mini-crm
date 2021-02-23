@@ -11,18 +11,18 @@
                                 class="mb-4 mb-xl-0"
                     >
 
-                       
+
                     </stats-card>
                 </div>
                 <div class="col-xl-3 col-lg-6">
                     <stats-card title="Employees"
                                 type="gradient-green"
                                 :sub-title="''+employee"
-                                icon="ni ni-money-coins"
+                                icon="fa fa-users"
                                 class="mb-4 mb-xl-0"
                     >
 
-                       
+
                     </stats-card>
 
                 </div>
@@ -34,7 +34,7 @@
                                 class="mb-4 mb-xl-0"
                     >
 
-                        
+
                     </stats-card>
                 </div>
             </div>
@@ -57,10 +57,10 @@ import companyRepo from '../repository/users/CompanyRepository';
       };
     },
     methods: {
-      
+
     },
     mounted() {
-        
+
         employeeRepo.getEmployee()
         .then(res=>{
           this.employee = res.data.data.employees.length;

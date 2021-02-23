@@ -6,9 +6,8 @@
                         <form role="form">
                             <base-input class="input-group-alternative mb-3"
                                         placeholder="Email"
-                                        addon-left-icon="ni ni-email-83"
-                                        :class="{'is-invalid':errors.has('email')}" 
-                                        v-validate="'required|email'" 
+                                        :class="{'is-invalid':errors.has('email')}"
+                                        v-validate="'required|email'"
                                         name="email"
                                         v-model="model.email">
                             </base-input>
@@ -17,22 +16,21 @@
                             <base-input class="input-group-alternative"
                                         placeholder="Password"
                                         type="password"
-                                        addon-left-icon="ni ni-lock-circle-open"
-                                        :class="{'is-invalid':errors.has('password')}" 
-                                        v-validate="'required'" 
+                                        :class="{'is-invalid':errors.has('password')}"
+                                        v-validate="'required'"
                                         name="password"
                                         v-model="model.password">
                             </base-input>
                              <span class="is_invalid" v-show="errors.has('password')">{{errors.first('password')}}</span>
 
-                            
+
                             <div class="text-center">
-                                <base-button type="primary" class="my-4" @click="loginUser">{{buttonText}}</base-button>
+                                <base-button type="primary" class="btn-dark" @click="loginUser">{{buttonText}}</base-button>
                             </div>
                         </form>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 </template>
@@ -55,10 +53,10 @@
         loginUser(){
             this.$validator.validate().then(valid => {
                     if(valid){
-                        this.buttonText = "Loggin in...";
+                        this.buttonText = "Please wait...";
                         userRepo.login(this.model)
                         .then(res=>{
-                            this.buttonText = "Sign in";
+                            this.buttonText = "Sign In";
                             let userData = res.data.data.user;
                                 tokenService.setUserData({
                                     name : userData.name,
@@ -75,7 +73,6 @@
                                 window.location.href = "./dashboard"
                             }else{
                                 window.location.href = "./profile"
-                                //this.$router.push('./profile')
                             }
                         })
                         .catch(err=>{
