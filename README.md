@@ -1,8 +1,8 @@
 # CRM app
-This is a simple Laravel / Vuejs CRM app
+This is a Laravel / Vuejs CRM app
 
 # Downloading the app
-Open up a terminal on your machine, navigate to a directory of your choice clone the repo
+Open up a terminal on your machine, navigate to a directory of your choice and clone the repo
 
 
 
@@ -20,6 +20,7 @@ DB_PASSWORD=your database user password
 Install dependencies
 ```bash
  Composer install
+ npm install
 ```
 # Run Migrations
 ```bash
@@ -30,15 +31,19 @@ Install dependencies
  php artisan db:seed
 ```
 
+# Running Application
+```bash
+ php artisan serve
+ npm run watch
+```
+
 # Admin Login
 ```bash
- email : admin@test.com
- password: test
+ email : test@test.com
+ password: password
 ``` 
 
-# Author
-Anyaso Franklin <br />
-franko172000@gmail.com
+
 
 
 
