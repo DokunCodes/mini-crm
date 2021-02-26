@@ -122,4 +122,5 @@ export default {
 .navbar-dark .navbar-nav .nav-link {
 	color: rgb(14, 13, 13);
 }
+
 </style>

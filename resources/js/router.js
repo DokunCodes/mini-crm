@@ -10,7 +10,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: () => import(/* webpackChunkName: "demo" */ './views/Home.vue')
+      component: () => import(/* webpackChunkName: "demo" */ './views/Main.vue')
     },
     {
       path: '/dashboard',
@@ -76,13 +76,13 @@ const router = new Router({
     },
     {
       path: '/',
-      redirect: 'login',
+      redirect: 'main',
       component: AuthLayout,
       children: [
         {
-          path: '/login',
-          name: 'login',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Login.vue')
+          path: '/',
+          name: 'home',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Main.vue')
         },
       ]
     },
@@ -99,7 +99,7 @@ router.beforeEach((to,from,next)=>{
   if(to.matched.some(record=>record.meta.requiresAuth)){
       if(TokenService.getAccessToken() === null || TokenService.getAccessToken() === undefined){
           next({
-              path:'./login',
+              path:'./',
               params : {nextUrl : to.fullPath}
           })
       }else{
@@ -109,7 +109,7 @@ router.beforeEach((to,from,next)=>{
       //remove access token
       TokenService.removeAccessToken();
       //redirect to login
-      window.location.href = './login'
+      window.location.href = './'
   }
   else{
       next()

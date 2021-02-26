@@ -7,17 +7,15 @@
          ]">
         <div :class="containerClasses">
             <slot name="brand">
-                <router-link :to="$route.path"
-                             class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-                    {{$route.name}}
-                </router-link>
+                <p style="float: right; width: inherit; margin-top: 20px">
+                    <router-link :to="$route.path"
+                                 class="h3 mt-10 text-red text-uppercase d-none d-block text-right">
+                        {{$route.name}}
+                    </router-link>
+                </p>
+
             </slot>
-            <!-- <navbar-toggle-button v-if="showToggleButton"
-                                  :toggled="toggled"
-                                  :target="contentId"
-                                  @click.native.stop="toggled = !toggled">
-                <span class="navbar-toggler-icon"></span>
-            </navbar-toggle-button> -->
+
 
             <div class="collapse navbar-collapse"
                  :class="{show: toggled}"

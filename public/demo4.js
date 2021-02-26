@@ -113,6 +113,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -209,22 +210,14 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "base-header",
-        {
-          staticClass: "header pb-8 pt-5 pt-lg-8 d-flex align-items-center",
-          staticStyle: {
-            "background-image": "url(img/theme/profile-cover.jpg)",
-            "background-size": "cover",
-            "background-position": "center top"
-          }
-        },
-        [_c("span", { staticClass: "mask bg-gradient-success opacity-8" })]
-      ),
+      _c("base-header", {
+        staticClass: "white pb-8 pt-5 pt-lg-8 d-flex align-items-center",
+        attrs: { type: "white" }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "container-fluid mt--7" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-xl-4 order-xl-2 mb-5 mb-xl-0" }, [
+          _c("div", { staticClass: "col-xl-4 order-xl-1 mb-5 mb-xl-0" }, [
             _c("div", { staticClass: "card card-profile shadow" }, [
               _c("div", { staticClass: "row justify-content-center" }, [
                 _c("div", { staticClass: "col-lg-3 order-lg-2" }, [
@@ -277,7 +270,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "mr-4",
-                          attrs: { size: "sm", type: "info" },
+                          attrs: { size: "sm", type: "dark" },
                           on: { click: _vm.triggerClick }
                         },
                         [
@@ -298,7 +291,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "col-xl-8 order-xl-1" },
+            { staticClass: "col-xl-8 order-xl-2" },
             [
               _c(
                 "card",
@@ -323,7 +316,7 @@ var render = function() {
                           _c(
                             "a",
                             {
-                              staticClass: "btn btn-sm btn-primary",
+                              staticClass: "btn btn-sm btn-dark",
                               attrs: { href: "#!" },
                               on: {
                                 click: function($event) {
@@ -337,7 +330,7 @@ var render = function() {
                                 _vm._s(
                                   _vm.submitProgress
                                     ? "Updating profile..."
-                                    : "Update profile"
+                                    : "Update Profile"
                                 )
                               )
                             ]

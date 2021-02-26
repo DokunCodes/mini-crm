@@ -1,6 +1,6 @@
 <template>
     <div>
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="white" class="pb-6 pb-8 pt-5 pt-md-8">
 
         </base-header>
         <div class="container-fluid mt--7">
@@ -12,11 +12,11 @@
                         <div class="row align-items-center">
                           <div class="col">
                             <h3 class="mb-0">
-                              {{title}}
+                             All Companies
                             </h3>
                           </div>
                           <div class="col text-right">
-                            <base-button type="primary" class="btn btn-dark" size="sm" @click="showModal = true">Add Company</base-button>
+                            <base-button type="primary" class="btn btn-dark" size="sm" @click="showModal = true"><i class="fa fa-plus" title="Add New"></i></base-button>
                           </div>
                         </div>
                       </div>
@@ -65,8 +65,8 @@
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" class="btn btn-info" size="sm" @click="editCompany(row)" >Edit</base-button>
-                                    <base-button type="danger" class="btn btn-danger" size="sm" @click="deleteCompany(row)" >Delete</base-button>
+                                    <base-button type="primary" class="btn btn-dark" size="sm" @click="editCompany(row)" ><i class="fa fa-eraser" title="Edit"></i></base-button>
+                                    <base-button type="danger" class="btn btn-danger" size="sm" @click="deleteCompany(row)" ><i class="fa fa-trash" title="Delete"></i></base-button>
                                   </td>
 
                                 </template>
@@ -81,48 +81,48 @@
                 </div>
 
           <modal :show="showModal">
+              <p class="text-right">
+                  <a href="#" @click.prevent="closeForm"><i class="fa fa-times-circle" style="color: red; font-size: 25px"></i></a>
+              </p>
             <h2 class="text-center">{{editMode ? 'Edit Company' : 'Add Company'}}</h2>
               <form role="form">
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="company">Company Name</label>
+                  <base-input class="input-group mb-3" id="company"
                                     placeholder="Company name"
                                     v-model="model.name">
                         </base-input>
 
 
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="web">Website URL</label>
+                  <base-input class="input-group mb-3" id="web"
                                     placeholder="Website URL"
                                     v-model="model.url">
                         </base-input>
 
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="email">Email</label>
+                  <base-input class="input-group mb-3" id="email"
                                     placeholder="Email"
                                     v-model="model.email">
-                        </base-input>
-
-                        <base-input class="input-group-alternative"
-                                    placeholder="Password"
-                                    type="password"
-                                    v-model="model.password">
                         </base-input>
 
 
                         <div class="text-muted mt-2" v-show="!editMode">
                             <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="logo" :src="logoSrc" />
+                                        <img alt="logo" v-if="logoSrc" :src="logoSrc" />
                                       </a>
                                       <div class="media-body">
                                         <input type="file" ref="filePic" name="company_photo" @change="onSelectedPhoto" v-show="false" />
-                                        <base-button type="info" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Select Logo</base-button>
+                                        <base-button type="dark" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Click to select</base-button>
                                         <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
                                       </div>
                                     </div>
 
                         </div>
                         <div class="text-center mt-3">
-                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="btn btn-dark">{{submitProgress ? 'Updating company...' : 'Update Company'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="btn btn-dark">{{submitProgress ? 'Adding company...' : 'Create Company'}}</base-button><br />
-                            <a href="#" @click.prevent="closeForm">Cancel</a>
+                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="btn btn-dark">{{submitProgress ? 'Please wait...' : 'Update'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="btn btn-dark">{{submitProgress ? 'Please wait...' : 'Save'}}</base-button><br />
+
                         </div>
               </form>
           </modal>
@@ -138,7 +138,7 @@
         employees:[],
         companies:[],
         title:'Companies List',
-        model:{name:"",url:"", email:"", password:"", company:"",company_id:""},
+        model:{name:"",url:"", email:"", company:"",company_id:""},
         showModal : false,
         editMode : false,
         submitProgress:false,

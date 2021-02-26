@@ -1,12 +1,12 @@
 <template>
     <div>
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
-           
+        <base-header type="white" class="pb-6 pb-8 pt-5 pt-md-8">
+
         </base-header>
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                 
+
                     <div class="card shadow">
                       <div class="card-header border-0">
                         <div class="row align-items-center">
@@ -16,7 +16,7 @@
                             </h3>
                           </div>
                           <div class="col text-right">
-                            <base-button type="primary" size="sm" @click="showModal = true">Add Users</base-button>
+                            <base-button type="dark" size="sm" @click="showModal = true"><i class="fa fa-plus" title="Add New"></i></base-button>
                           </div>
                         </div>
                       </div>
@@ -38,7 +38,7 @@
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
                                         <img alt="Image placeholder" :src="row.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/admin/'+row.profile_photo" >
-                                        
+
                                       </a>
                                       <div class="media-body">
                                         <span class="name mb-0 text-sm">{{row.first_name}}</span>
@@ -50,19 +50,19 @@
                                   </td>
                                   <td>
                                     <badge class="badge-dot mr-4">
-                                      
+
                                       <span class="status">{{row.role}}</span>
                                     </badge>
                                   </td>
                                   <td>
                                     <badge class="badge-dot mr-4">
-                                      
+
                                       <span class="status">{{row.email}}</span>
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" size="sm" @click="editUser(row)" >Edit</base-button>
-                                    <base-button type="danger" size="sm" @click="deleteUser(row)" >Delete</base-button>
+                                    <base-button type="primary" class="btn btn-dark" size="sm" @click="editUser(row)" ><i class="fa fa-eraser" title="Edit"></i></base-button>
+                                    <base-button type="danger" class="btn btn-danger" size="sm" @click="deleteUser(row)" ><i class="fa fa-trash" title="Delete"></i></base-button>
                                   </td>
 
                                 </template>
@@ -70,38 +70,47 @@
                               </base-table>
                             </div>
 
-              
+
                             </div>
                           </div>
                       </div>
                 </div>
 
           <modal :show="showModal">
+              <p class="text-right">
+                  <a href="#" @click.prevent="closeForm"><i class="fa fa-times-circle" style="color: red; font-size: 25px"></i></a>
+              </p>
             <h2 class="text-center">{{editMode ? 'Edit User' : 'Add User'}}</h2>
               <form role="form">
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="firstname">First Name</label>
+                  <base-input class="input-group mb-3" id="firstname"
                                     placeholder="First name"
                                     v-model="model.first_name">
                         </base-input>
 
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="lastname">Last Name</label>
+                  <base-input class="input-group mb-3" id="lastname"
                                     placeholder="Last name"
                                     v-model="model.last_name">
                         </base-input>
 
-                        <select class="form-control mt-2" v-model="model.role">
+                  <label for="role">Role</label>
+
+                        <select class="form-control mt-2" v-model="model.role" id="role">
                             <option value="">Select role</option>
                             <option value="admin">Admin</option>
                             <option value="sub-admin">Sub Admin</option>
-                            
+
                         </select>
 
-                        <base-input class="input-group-alternative mb-3"
+                  <label for="email">Email</label>
+                  <base-input class="input-group mb-3" id="email"
                                     placeholder="Email"
                                     v-model="model.email">
                         </base-input>
 
-                        <base-input class="input-group-alternative"
+                  <label for="password">Password</label>
+                  <base-input class="input-group" id="password"
                                     placeholder="Password"
                                     type="password"
                                     v-model="model.password">
@@ -111,20 +120,20 @@
                         <div class="text-muted mt-2" v-show="!editMode">
                             <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="logo" :src="logoSrc" />
+                                        <img alt="logo" v-if="logoSrc" :src="logoSrc" />
                                       </a>
                                       <div class="media-body">
                                         <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
-                                        <base-button type="info" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Select Logo</base-button>
+                                        <base-button type="dark" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Click to select logo</base-button>
                                         <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
                                       </div>
                                     </div>
-                            
+
                         </div>
                         <div class="text-center">
-                            <base-button type="primary" @click.prevent="updateUser" v-show="editMode" class="my-4">{{submitProgress ? 'Updating users...' : 'Update User'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addUser" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding users...' : 'Create User'}}</base-button><br />
-                            <a href="#" @click.prevent="closeForm">Close form</a>
+                            <base-button type="primary"  @click.prevent="updateUser" v-show="editMode" class="my-4 btn btn-dark">{{submitProgress ? 'Please wait...' : 'Update'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addUser" v-show="!editMode" class="my-4 btn btn-dark">{{submitProgress ? 'Please wait...' : 'Save'}}</base-button><br />
+
                         </div>
               </form>
           </modal>

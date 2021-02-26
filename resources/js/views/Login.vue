@@ -70,7 +70,7 @@
                                 animation:'slide'
                             });
                             if(userData.acct_type === "admin"){
-                                window.location.href = "./dashboard"
+                                window.location.href = "dashboard"
                             }else{
                                 window.location.href = "./profile"
                             }

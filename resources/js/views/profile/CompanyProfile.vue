@@ -1,16 +1,15 @@
 <template>
     <div>
-        <base-header class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-                     style="background-image: url(img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-            <!-- Mask -->
-            <span class="mask bg-gradient-success opacity-8"></span>
+        <base-header type="white" class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+                     >
+
             <!-- Header container -->
-           
+
         </base-header>
 
         <div class="container-fluid mt--7">
             <div class="row">
-                <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="col-xl-4 order-xl-1 mb-5 mb-xl-0">
 
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
@@ -27,14 +26,14 @@
                             <div class="d-flex justify-content-between">
                                 <!-- <base-button size="sm" type="danger" class="mr-4" @click="triggerClick" v-show="showremoveBtn">Remove</base-button> -->
                                 <base-button size="sm" type="info" class="mr-4" @click="triggerClick" v-show="!showremoveBtn">{{uploadImgProgress ? "Uploading...":"Change"}}</base-button>
-                               
+
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
-                <div class="col-xl-8 order-xl-1">
+                <div class="col-xl-8 order-xl-2">
                     <card shadow type="secondary">
                         <div slot="header" class="bg-white border-0">
                             <div class="row align-items-center">
@@ -95,9 +94,9 @@
                                             />
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                                
+
                                <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
                             </form>
                         </template>
@@ -170,13 +169,13 @@ import companyRepo from '../../repository/users/CompanyRepository';
                 })
                  this.uploadImgProgress = false
             })
-           
+
         },
     },
     mounted(){
         this.getUser();
     }
-    
+
   };
 </script>
 <style></style>

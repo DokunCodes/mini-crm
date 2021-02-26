@@ -1,29 +1,21 @@
 <template>
   <card class="card-stats" :show-footer-line="true">
     <div class="row">
-
-      <div class="col">
+      <div class="col card-counter" :class="color">
         <slot>
-          <h5 class="card-title text-uppercase text-muted mb-0" v-if="title">{{title}}</h5>
-          <span class="h2 font-weight-bold mb-0" v-if="subTitle">{{subTitle}}</span>
+
+                <i :class="icon"></i>
+                <span class="count-numbers" v-if="title">{{subTitle}}</span>
+                <span class="count-name" v-if="subTitle">{{title}}</span>
+
+
         </slot>
       </div>
 
-      <div class="col-auto" v-if="$slots.icon || icon">
-        <slot name="icon">
-          <div class="icon icon-shape text-white rounded-circle shadow"
-               :class="[`bg-${type}`, iconClasses]">
-            <i :class="icon"></i>
-          </div>
-        </slot>
-      </div>
+
     </div>
 
-    <p class="mt-3 mb-0 text-sm">
-      <slot name="footer">
 
-      </slot>
-    </p>
   </card>
 </template>
 <script>
@@ -42,8 +34,73 @@
       icon: String,
       title: String,
       subTitle: String,
+        color: String,
       iconClasses: [String, Array]
     }
   };
 </script>
-<style></style>
+<style>
+
+    .card {
+        border: none !important;
+    }
+    .card-counter{
+        box-shadow: 2px 2px 10px #DADADA;
+        margin: 5px;
+        padding: 20px 10px;
+        background-color: #fff;
+        height: 170px;
+        border-radius: 5px;
+        transition: .3s linear all;
+    }
+
+    .card-counter:hover{
+        box-shadow: 4px 4px 20px #DADADA;
+        transition: .3s linear all;
+    }
+
+    .card-counter.primary{
+        background-color: #007bff;
+        color: #FFF;
+    }
+
+    .card-counter.danger{
+        background-color: #ef5350;
+        color: #FFF;
+    }
+
+    .card-counter.success{
+        background-color: #66bb6a;
+        color: #FFF;
+    }
+
+    .card-counter.info{
+        background-color: #26c6da;
+        color: #FFF;
+    }
+
+    .card-counter i{
+        font-size: 7em;
+        opacity: 0.2;
+    }
+
+    .card-counter .count-numbers{
+        position: absolute;
+        right: 40px;
+        top: 20px;
+        font-size: 32px;
+        display: block;
+    }
+
+    .card-counter .count-name{
+        position: absolute;
+        right: 35px;
+        top: 65px;
+
+        text-transform: capitalize;
+        opacity: 0.5;
+        display: block;
+        font-size: 18px;
+    }
+
+</style>

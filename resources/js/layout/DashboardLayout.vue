@@ -4,22 +4,23 @@
       :background-color="sidebarBackground"
       short-title="Argon"
       title="Argon"
+      :user_details = "{name: username, user_type: userType}"
     >
       <template slot="links">
         <sidebar-item
         v-show="userType === 'admin'"
           :link="{
             name: 'Dashboard',
-            icon: 'ni ni-tv-2 text-primary',
+            icon: 'fa fa-signal',
             path: '/dashboard'
           }"
         />
 
-        <sidebar-item v-show="userType === 'admin' || userType === 'company'" :link="{name: 'Employees', icon: 'fa fa-users text-green', path: '/employees'}"/>
-        <sidebar-item v-show="userType === 'admin'" :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/companies'}"/>
-        <sidebar-item v-show="userType === 'admin'" :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/admin-users'}"/>
-        <sidebar-item v-show="userType === 'admin' || userType === 'company' || userType === 'employee'" :link="{name: 'Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Logout', icon: 'fa fa-lock text-info', path: '/logout'}"/>
+        <sidebar-item v-show="userType === 'admin' || userType === 'company'" :link="{name: 'Employees', icon: 'fa fa-users', path: '/employees'}"/>
+        <sidebar-item v-show="userType === 'admin'" :link="{name: 'Companies', icon: 'fa fa-map-pin', path: '/companies'}"/>
+        <sidebar-item v-show="userType === 'admin'" :link="{name: 'Admin Users', icon: 'fa fa-user-circle', path: '/admin-users'}"/>
+        <sidebar-item v-show="userType === 'admin' || userType === 'company' || userType === 'employee'" :link="{name: 'Profile', icon: 'fa fa-user', path: '/profile'}"/>
+        <sidebar-item :link="{name: 'Logout', icon: 'fa fa-lock', path: '/logout'}"/>
 
       </template>
     </side-bar>
@@ -34,6 +35,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script>
   import DashboardNavbar from './DashboardNavbar.vue';
@@ -48,10 +50,13 @@
       FadeTransition
     },
     data() {
+
       return {
         sidebarBackground: 'vue',
-        userType: TokenService.getUserData().type
+        userType: TokenService.getUserData().type,
+        username : TokenService.getUserData().name
       };
+
     },
     methods: {
       toggleSidebar() {
@@ -62,5 +67,8 @@
     }
   };
 </script>
-<style lang="scss">
+<style scoped>
+
+
+
 </style>

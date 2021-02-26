@@ -1,37 +1,40 @@
 <template>
     <div>
-        <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="white" class="pb-6 pb-8 pt-5 pt-md-8 pt-10">
             <!-- Card stats -->
             <div class="row">
-                <div class="col-xl-3 col-lg-6">
+                <div class="col-xl-4 col-lg-4">
                     <stats-card title="Companies"
                                 type="gradient-red"
                                 :sub-title="''+companies"
-                                icon="ni ni-pin-3"
+                                icon="fa fa-map-pin"
                                 class="mb-4 mb-xl-0"
+                                color="primary"
                     >
 
 
                     </stats-card>
                 </div>
-                <div class="col-xl-3 col-lg-6">
+                <div class="col-xl-4 col-lg-4">
                     <stats-card title="Employees"
                                 type="gradient-green"
                                 :sub-title="''+employee"
                                 icon="fa fa-users"
                                 class="mb-4 mb-xl-0"
+                                color="danger"
                     >
 
 
                     </stats-card>
 
                 </div>
-                <div class="col-xl-3 col-lg-6">
+                <div class="col-xl-4 col-lg-4">
                     <stats-card title="Admin Users"
                                 type="gradient-info"
                                 :sub-title="''+admin_users"
-                                icon="ni ni-circle-08"
+                                icon="fa fa-user-circle"
                                 class="mb-4 mb-xl-0"
+                                color="success"
                     >
 
 
@@ -42,7 +45,7 @@
     </div>
 </template>
 <script>
-import userRepo from '../repository/users/UserRepository';
+
 import employeeRepo from '../repository/users/EmployeeRepository';
 import adminRepo from '../repository/users/AdminRepository';
 import companyRepo from '../repository/users/CompanyRepository';

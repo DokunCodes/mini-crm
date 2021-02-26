@@ -1,81 +1,32 @@
 <template>
-    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
-        <div class="container-fluid">
-            <router-link class="navbar-brand" to="/">
-                <img src="img/crm_logo.png" style="max-height: 80px" class="navbar-brand-img" alt="...">
-            </router-link>
+    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light " id="sidenav-main">
 
-            <slot name="mobile-right">
-                <ul class="nav align-items-center d-md-none">
-                    <base-dropdown class="nav-item" position="right">
-                        <a slot="title" class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            <i class="ni ni-bell-55"></i>
-                        </a>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </base-dropdown>
-                    <base-dropdown class="nav-item" position="right">
-                        <a slot="title" class="nav-link" href="#" role="button">
-                            <div class="media align-items-center">
-                              <span class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
-                              </span>
+            <div class="sidebar-container">
+                <router-link class="navbar-brand" to="#">
+                    <div class="vertical-nav" id="sidebar">
+                        <div class="py-4 px-3 mb-4">
+                            <div class="media d-flex align-items-center">
+                                <img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="65"
+                                                                              class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                                <div class="media-body">
+                                    <h4 class="m-0 text-light">{{user_details.name}}</h4>
+                                    <p class="font-weight-light text-light mb-0" style="text-transform: capitalize;">{{user_details.user_type}}</p>
+                                </div>
                             </div>
-                        </a>
-
-                        <div class=" dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome!</h6>
-                        </div>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
-                            <span>My profile</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-settings-gear-65"></i>
-                            <span>Settings</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Activity</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Support</span>
-                        </router-link>
-                        <div class="dropdown-divider"></div>
-                        <a href="#!" class="dropdown-item">
-                            <i class="ni ni-user-run"></i>
-                            <span>Logout</span>
-                        </a>
-                    </base-dropdown>
-                </ul>
-            </slot>
-            <slot></slot>
-            <div v-show="$sidebar.showSidebar" class="navbar-collapse collapse show" id="sidenav-collapse-main">
-
-                <div class="navbar-collapse-header d-md-none">
-                    <div class="row">
-                        <div class="col-6 collapse-brand">
-                            <router-link to="/">
-                                <img :src="logo">
-                            </router-link>
-                        </div>
-                        <div class="col-6 collapse-close">
-                            <!-- <navbar-toggle-button @click.native="closeSidebar"></navbar-toggle-button> -->
                         </div>
                     </div>
-                </div>
 
-                <ul class="navbar-nav">
+                </router-link>
+
+                <ul class="sidebar-navigation">
                     <slot name="links">
                     </slot>
                 </ul>
             </div>
-          </div>
+
     </nav>
+
+
 </template>
 <script>
   //import NavbarToggleButton from '@/components/NavbarToggleButton'
@@ -91,6 +42,15 @@
         default: 'img/crm_logo.png',
         description: 'Sidebar app logo'
       },
+        user_details:{
+          type: Object,
+            default: () => {
+                return {
+                    name: '',
+                    user_type: ''
+                }
+        }
+        },
       autoClose: {
         type: Boolean,
         default: true,
@@ -117,3 +77,82 @@
     }
   };
 </script>
+<style>
+    .sidebar-container {
+        position: fixed;
+        width: 250px;
+        height: 100%;
+        left: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .navbar {
+        padding: 0 !important;
+    }
+
+
+    .sidebar-logo {
+        padding: 10px 15px 10px 30px;
+        font-size: 20px;
+    }
+
+    .sidebar-navigation {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        position: relative;
+    }
+
+    .sidebar-navigation li {
+        background-color: transparent;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        line-height: 20px;
+    }
+
+    .sidebar-navigation li span {
+        padding: 10px 15px 10px 30px;
+        display: inline-block;
+        color: #fff;
+    }
+
+    .sidebar-navigation li .fa {
+
+        color: #ffffff;
+    }
+
+    .sidebar-navigation li a:active,
+    .sidebar-navigation li a:hover,
+    .sidebar-navigation li a:focus {
+        text-decoration: none;
+        outline: none;
+    }
+
+    .sidebar-navigation li::before {
+        background-color: #f33;
+        position: absolute;
+        content: '';
+        height: 100%;
+        left: 0;
+        top: 0;
+        -webkit-transition: width 0.2s ease-in;
+        transition: width 0.2s ease-in;
+        width: 3px;
+        z-index: -1;
+
+    }
+
+    .sidebar-navigation li:hover::before {
+        width: 100%;
+    }
+
+
+
+
+    .logo {
+        height: 40px; }
+</style>

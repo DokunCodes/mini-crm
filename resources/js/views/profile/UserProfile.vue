@@ -1,16 +1,17 @@
 <template>
     <div>
-        <base-header class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-                     style="background-image: url(img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+        <base-header type="white" class="white pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+                     style="">
             <!-- Mask -->
-            <span class="mask bg-gradient-success opacity-8"></span>
+
             <!-- Header container -->
-           
+
         </base-header>
 
         <div class="container-fluid mt--7">
             <div class="row">
-                <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+
+                <div class="col-xl-4 order-xl-1 mb-5 mb-xl-0">
 
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
@@ -26,15 +27,14 @@
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                             <div class="d-flex justify-content-between">
                                 <!-- <base-button size="sm" type="danger" class="mr-4" @click="triggerClick" v-show="showremoveBtn">Remove</base-button> -->
-                                <base-button size="sm" type="info" class="mr-4" @click="triggerClick" v-show="!showremoveBtn">{{uploadImgProgress ? "Uploading...":"Change"}}</base-button>
-                               
+                                <base-button size="sm" type="dark" class="mr-4" @click="triggerClick" v-show="!showremoveBtn">{{uploadImgProgress ? "Uploading...":"Change"}}</base-button>
+
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
-
-                <div class="col-xl-8 order-xl-1">
+                <div class="col-xl-8 order-xl-2">
                     <card shadow type="secondary">
                         <div slot="header" class="bg-white border-0">
                             <div class="row align-items-center">
@@ -42,7 +42,7 @@
                                     <h3 class="mb-0">My Profile</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary" @click.prevent="updateUser">{{submitProgress ? 'Updating profile...' : 'Update profile'}}</a>
+                                    <a href="#!" class="btn btn-sm btn-dark" @click.prevent="updateUser">{{submitProgress ? 'Updating profile...' : 'Update Profile'}}</a>
                                 </div>
                             </div>
                         </div>
@@ -87,14 +87,15 @@
                                             />
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                                
-                               <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
+
+                                <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
                             </form>
                         </template>
                     </card>
                 </div>
+
             </div>
         </div>
     </div>
@@ -149,7 +150,7 @@ import tokenService from '../../services/TokenService';
         },
         triggerClick(){
             this.$refs.filePic.click();
-            
+
         },
         onSelectedPhoto(e){
             this.logoSrc =  URL.createObjectURL(e.target.files[0]);
@@ -164,13 +165,13 @@ import tokenService from '../../services/TokenService';
                 })
                  this.uploadImgProgress = false
             })
-           
+
         },
     },
     mounted(){
         this.getUser();
     }
-    
+
   };
 </script>
 <style></style>
