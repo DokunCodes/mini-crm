@@ -4,12 +4,12 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-xl-4 col-lg-4">
-                    <stats-card title="Companies"
-                                type="gradient-red"
-                                :sub-title="''+companies"
-                                icon="fa fa-map-pin"
+                    <stats-card title="Admin Users"
+                                type="gradient-info"
+                                :sub-title="''+admin_users"
+                                icon="fa fa-user-circle"
                                 class="mb-4 mb-xl-0"
-                                color="primary"
+                                color="success"
                     >
 
 
@@ -29,17 +29,18 @@
 
                 </div>
                 <div class="col-xl-4 col-lg-4">
-                    <stats-card title="Admin Users"
-                                type="gradient-info"
-                                :sub-title="''+admin_users"
-                                icon="fa fa-user-circle"
+                    <stats-card title="Companies"
+                                type="gradient-red"
+                                :sub-title="''+companies"
+                                icon="fa fa-map-pin"
                                 class="mb-4 mb-xl-0"
-                                color="success"
+                                color="primary"
                     >
 
 
                     </stats-card>
                 </div>
+
             </div>
         </base-header>
     </div>

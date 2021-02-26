@@ -627,6 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2269,11 +2270,11 @@ var render = function() {
                 _c("stats-card", {
                   staticClass: "mb-4 mb-xl-0",
                   attrs: {
-                    title: "Companies",
-                    type: "gradient-red",
-                    "sub-title": "" + _vm.companies,
-                    icon: "fa fa-map-pin",
-                    color: "primary"
+                    title: "Admin Users",
+                    type: "gradient-info",
+                    "sub-title": "" + _vm.admin_users,
+                    icon: "fa fa-user-circle",
+                    color: "success"
                   }
                 })
               ],
@@ -2305,11 +2306,11 @@ var render = function() {
                 _c("stats-card", {
                   staticClass: "mb-4 mb-xl-0",
                   attrs: {
-                    title: "Admin Users",
-                    type: "gradient-info",
-                    "sub-title": "" + _vm.admin_users,
-                    icon: "fa fa-user-circle",
-                    color: "success"
+                    title: "Companies",
+                    type: "gradient-red",
+                    "sub-title": "" + _vm.companies,
+                    icon: "fa fa-map-pin",
+                    color: "primary"
                   }
                 })
               ],
