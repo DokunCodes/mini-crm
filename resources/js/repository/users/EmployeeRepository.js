@@ -17,6 +17,9 @@ export default {
         return apiService.get(resources+'get-profile')
     },
     uploadPhoto(data){
-        return apiService.post(resources+'upload-logo',data)
+        return apiService.post(resources+'upload-photo',data)
     },
+    updateEmployeeProfile(data){
+        return apiService.put(resources+'update-profile', data)
+    }
 }

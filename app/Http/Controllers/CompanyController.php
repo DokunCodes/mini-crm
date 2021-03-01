@@ -26,7 +26,7 @@ class CompanyController extends Controller {
         $this->hash = $hash;
     }
 
-    public function creatCompany(Request $request){
+    public function createCompany(Request $request){
         $form = $request->all();
         $user =  null;
         $response= [];
@@ -34,17 +34,17 @@ class CompanyController extends Controller {
         $image = null;
         //set validation rules and messages
         $messages = [
-            'email.required' => 'Please enter your username',
-            'password.required' => 'Please enter your password',
+            'email.required' => 'Please enter company email',
             'name.required' => 'Please enter company name',
-            'url.required' => 'Please enter url'
+            'url.required' => 'Please enter company url',
+            'password.required' => 'Please enter company admin password'
         ];
 
         $rules = [
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:2',
             'name' => 'required|min:2',
-            'url' => 'required|min:2'
+            'url' => 'required|min:2',
+            'password' => 'required|min:2'
         ];
 
         if($request->hasFile('logo')){
@@ -68,12 +68,13 @@ class CompanyController extends Controller {
             $user->save();
 
             if($request->hasFile('logo')){
-                $filename = "profile-pic/company/".time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
+                $filename = time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/company/");
                 $image->move($path,$filename);
+                $filename = "profile-pic/company/".$filename;
             }
 
-            //add conpamy data
+            //add company data
             $this->companyModel->company_id = $user->id;
             $this->companyModel->name = $form['name'];
             $this->companyModel->url = $form['url'];
@@ -111,8 +112,7 @@ class CompanyController extends Controller {
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
         $companyObj = $this->companyModel->select(DB::raw("company_id companyid ,name,email,url,logo AS company_logo,
-        (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count,
-        (SELECT email FROM users where id = companyid) AS email"));
+        (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count"))->orderByDesc('created_at');
 
         if(!empty($page)){
             $pagenum = $page;
@@ -153,15 +153,15 @@ class CompanyController extends Controller {
         //set validation rules and messages
         $messages = [
             'name.required' => 'Please enter company name',
-            'contact_person.required' => 'Please enter contact person',
+            'password.required' => 'Please enter company admin password',
             'url.required' => 'Please enter url',
             'company_id.required' => 'Please enter company user id',
         ];
 
         $rules = [
             'name' => 'required|min:2',
-            'contact_person' => 'required|min:2',
-            'email' => 'email|unique:users,email,'.$form['company_id'],
+            'password' => 'required|min:2',
+            'email' => ['unique:users,email,'.$form['company_id'], 'unique:company,email,'.$form['company_id'].',company_id'],
             'url' => 'required|min:2',
             'company_id' => 'required',
         ];
@@ -183,8 +183,8 @@ class CompanyController extends Controller {
             }
 
 
-            $result = $this->companyModel::where('company_id',$form['user_id'])
-            ->update(["name"=>$form['name'],"contact_person"=>$form['contact_person'],"url"=>$form['url']]);
+            $result = $this->companyModel::where('company_id',$form['company_id'])
+            ->update(["name"=>$form['name'],"email"=>$form['email'],"url"=>$form['url']]);
 
             if($result === 1){
                  //add conpamy data

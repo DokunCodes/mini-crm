@@ -29,6 +29,8 @@
                     v-on="listeners"
                     v-bind="$attrs"
                     class="form-control"
+                    :type="type"
+                    :required="required"
                     :class="[
                      {'is-valid': valid === true},
                      {'is-invalid': valid === false}, inputClasses]"
@@ -58,6 +60,10 @@ export default {
       type: Boolean,
       description: "Whether input is required (adds an asterix *)"
     },
+      type: {
+          type: String,
+          description: "Input type"
+      },
     valid: {
       type: Boolean,
       description: "Whether is valid",

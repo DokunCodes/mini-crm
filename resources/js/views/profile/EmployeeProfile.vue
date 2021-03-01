@@ -17,7 +17,8 @@
                                     <a href="#">
                                         <img v-if="logoSrc !== null" :src="logoSrc" class="rounded-circle">
 
-                                        <img v-if="logoSrc === null" :src="model.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/company/'+model.profile_photo" class="rounded-circle">
+                                        <img v-if="logoSrc === null || logoSrc===''" :src="model.profile_photo === null ?
+                                         'https://dummyimage.com/250x250/09f/fff.png&text='+model.first_name : model.profile_photo" class="rounded-circle">
                                     </a>
                                 </div>
                             </div>
@@ -25,7 +26,7 @@
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                             <div class="d-flex justify-content-between">
                                 <!-- <base-button size="sm" type="danger" class="mr-4" @click="triggerClick" v-show="showremoveBtn">Remove</base-button> -->
-                                <base-button size="sm" type="info" class="mr-4" @click="triggerClick" v-show="!showremoveBtn">{{uploadImgProgress ? "Uploading...":"Change"}}</base-button>
+                                <base-button size="sm" type="dark" class="mr-4" @click="triggerClick" v-show="!showremoveBtn">{{uploadImgProgress ? "Uploading...":"Change"}}</base-button>
 
                             </div>
                         </div>
@@ -41,12 +42,12 @@
                                     <h3 class="mb-0">My Profile</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary" @click.prevent="updateUser">{{submitProgress ? 'Updating profile...' : 'Update profile'}}</a>
+                                    <a href="#!" class="btn btn-sm btn-danger" @click.prevent="updateUser">{{submitProgress ? 'Updating profile...' : 'Update profile'}}</a>
                                 </div>
                             </div>
                         </div>
                         <template>
-                            <form @submit.prevent>
+                            <form @submit.prevent role="form">
                                 <h6 class="heading-small text-muted mb-4">User information</h6>
                                 <div class="pl-lg-4">
                                     <div class="row">
@@ -54,17 +55,23 @@
                                             <base-input alternative=""
                                                         label="First name"
                                                         placeholder="First name"
+                                                        v-validate="'required'"
+                                                        name="first_name"
                                                         input-classes="form-control-alternative"
                                                         v-model="model.first_name"
                                             />
+                                            <span class="is_invalid" v-show="errors.has('first_name')">{{errors.first('first_name')}}</span>
                                         </div>
                                         <div class="col-lg-6">
                                             <base-input alternative=""
                                                         label="Last name"
                                                         placeholder="Last name"
+                                                        v-validate="'required'"
+                                                        name="last_name"
                                                         input-classes="form-control-alternative"
                                                         v-model="model.last_name"
                                             />
+                                            <span class="is_invalid" v-show="errors.has('last_name')">{{errors.first('last_name')}}</span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -72,9 +79,12 @@
                                             <base-input alternative=""
                                                         label="Email"
                                                         placeholder="Email"
+                                                        v-validate="'required|email'"
+                                                        name="email"
                                                         input-classes="form-control-alternative"
                                                         v-model="model.email"
                                             />
+                                            <span class="is_invalid" v-show="errors.has('email')">{{errors.first('email')}}</span>
                                         </div>
                                         <div class="col-lg-6">
                                             <base-input alternative=""
@@ -99,6 +109,7 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue';
 import employeeRepo from '../../repository/users/EmployeeRepository';
   export default {
     name: 'user-profile',
@@ -121,17 +132,19 @@ import employeeRepo from '../../repository/users/EmployeeRepository';
     },
      methods:{
             updateUser(){
-                this.submitProgress = true;
-                employeeRepo.updateUser(this.model)
-                .then(res=>{
-                    this.getUser();
-                    this.showModal = false;
-                    this.submitProgress = false;
-                    this.$notify({
-                    type: 'success',
-                    title: 'Profile updated successfully'
-                    })
-            })
+                this.$validator.validate().then(valid => {
+                    if (valid) {
+                        this.submitProgress = true;
+                        employeeRepo.updateEmployeeProfile(this.model)
+                            .then(res => {
+                                this.getUser();
+                                this.showModal = false;
+                                this.submitProgress = false;
+                                Vue.$toast.success('Profile updated updated');
+
+                            })
+                    }
+                })
         },
         getUser(){
                 employeeRepo.getProfile()
@@ -155,19 +168,37 @@ import employeeRepo from '../../repository/users/EmployeeRepository';
              this.uploadImgProgress = true
             employeeRepo.uploadPhoto(data)
             .then(res=>{
-                this.$notify({
-                    type: 'success',
-                    title: 'Photo updated successfully'
-                })
+                Vue.$toast.success('Profile photo updated');
                  this.uploadImgProgress = false
             })
 
         },
+         customValidator(){
+             return {
+                 custom:{
+                     first_name:{
+                         required:"Please enter first name",
+                     },
+                     last_name:{
+                         required:"Please enter last name",
+                     },
+                     email:{
+                         required:"Please enter email",
+                     }
+                 }
+             }
+         }
     },
     mounted(){
         this.getUser();
+        this.$validator.localize('en',this.customValidator());
     }
 
   };
 </script>
-<style></style>
+<style>
+    .is_invalid{
+        font-size: 13px;
+        color: red;
+    }
+</style>

@@ -6,6 +6,7 @@ use App\Company;
 use App\Employee;
 use App\Responses\ServerResponses;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -74,14 +75,17 @@ class EmployeeController extends Controller {
                 $filename = time()."_".$user->id."_profile_pic.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/employee/");
                 $image->move($path,$filename);
+                $filename = "profile-pic/employee/".$filename;
             }
 
-            //add conpamy data
+            //add company data
             $this->employeeModel->user_id = $user->id;
             $this->employeeModel->first_name = $form['first_name'];
             $this->employeeModel->last_name = $form['last_name'];
+            $this->employeeModel->email = $form['email'];
             $this->employeeModel->company_id = $form['company_id'];
-            $this->employeeModel->photo = $filename;
+            $this->employeeModel->avatar = $filename;
+            $this->employeeModel->created_at = Carbon::now();
             $this->employeeModel->save();
 
 
@@ -117,7 +121,8 @@ class EmployeeController extends Controller {
         $page = isset($body['page']) ? $body['page'] : "";
 
         $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,avatar
-        as profile_photo,company_id,user_id,email, company_id as cid, (SELECT name FROM company where company_id = cid) AS company_name'));
+        as profile_photo,company_id,user_id,email, company_id as cid, (SELECT name FROM company where company_id = cid) AS company_name'))
+            ->orderByDesc('created_at');
 
 
         //check is user is a company
@@ -156,35 +161,30 @@ class EmployeeController extends Controller {
         $user =  null;
         $response= [];
         //set validation rules and messages
+
         $messages = [
+            'email.required' => 'Please enter your username',
+            'password.required' => 'Please enter your password',
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
-            'user_id.required' => 'Please enter company user id',
+            'company_id.required' => 'Please enter company id',
         ];
 
         $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
             'email' => 'email|unique:users,email,'.$form['user_id'],
-            'user_id' => 'required',
+            'password' => 'required|min:2',
+            'first_name' => 'required|min:2',
+            'last_name' => 'required|min:2',
+            'company_id' => 'required',
         ];
 
         //start the validation
         $validator = $this->validator::make($form,$rules,$messages);
 
-        //check if there are files to upload
-        // if($request->hasFile('profile_image')){
-        //     $image = $request->file('profile_image');
-        //     $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
-        //     $imageMime = $image->getMimeType();
-        //     if(!in_array($imageMime,$allowedImageTypes)){
-        //         return $this->responses::getBadRequst("Invalid image format");
-        //     }
-        // }
 
         if(!$validator->fails()){
 
-            $data = ["first_name"=>$form['first_name'],"last_name"=>$form['last_name']];
+            $data = ["first_name"=>$form['first_name'],"last_name"=>$form['last_name'],"email"=>$form['email']];
 
             if(isset($form['company_id'])){
                 $data['company_id'] = $form['company_id'];
@@ -201,13 +201,67 @@ class EmployeeController extends Controller {
                 $this->userModel::where('id',$form['user_id'])->update($userData);
             }
 
-            // //upload ans set image path in db
-            // if($request->hasFile('profile_image')){
-            //     $filename = time()."_".$form['user_id']."_profile_pic.".$image->getClientOriginalExtension();
-            //     $path = public_path("profile-pic/employee/");
-            //     $image->move($path,$filename);
-            //     $data['photo'] = $filename;
-            // }
+
+
+            //do the update
+            $result = $this->employeeModel::where('user_id',$form['user_id'])
+            ->update($data);
+
+            if($result === 1){
+                 //get last updated entry
+                 $user =  $this->employeeModel::where('user_id',$form['user_id'])->first();
+                 return $this->responses::getSuccess(["employee"=>$user],"updated");
+
+            }else{
+                return $this->responses::getNoFound("employee does not exist");
+            }
+
+        }else{
+            throw new ValidationException($validator);
+        }
+    }
+
+
+    public function updateEmployeeProfile(Request $request){
+        $form = $request->all();
+        $image = null;
+        $user =  null;
+        $response= [];
+        //set validation rules and messages
+
+        $messages = [
+            'email.required' => 'Please enter your username',
+            'first_name.required' => 'Please enter first name',
+            'last_name.required' => 'Please enter last name'
+        ];
+
+        $rules = [
+            'email' => 'email|unique:users,email,'.$form['user_id'],
+            'first_name' => 'required|min:2',
+            'last_name' => 'required|min:2'
+        ];
+
+        //start the validation
+        $validator = $this->validator::make($form,$rules,$messages);
+
+
+        if(!$validator->fails()){
+
+            $data = ["first_name"=>$form['first_name'],"last_name"=>$form['last_name'],"email"=>$form['email']];
+
+
+            //update account login detail
+            if(isset($form['email']) || isset($form['password'])){
+                $userData = [];
+                if(isset($form['email']))
+                    $userData["email"]=$form['email'];
+                if(isset($form['password']))
+                    $userData["password"]=$this->hash::make($form['password']);
+
+                $this->userModel::where('id',$form['user_id'])->update($userData);
+            }
+
+
 
             //do the update
             $result = $this->employeeModel::where('user_id',$form['user_id'])
@@ -229,8 +283,8 @@ class EmployeeController extends Controller {
 
     public function getProfile(Request $request){
         $form = $request->all();
-        $employee = $this->employeeModel->select(DB::raw('first_name,last_name, photo
-        as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'))->where('user_id',$form['user']->id)->firstOrFail();
+        $employee = $this->employeeModel->select(DB::raw('first_name,last_name, avatar
+as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'))->where('user_id',$form['user']->id)->firstOrFail();
         return $this->responses::getSuccess(["user"=>$employee]);
     }
 
@@ -248,8 +302,9 @@ class EmployeeController extends Controller {
                 $filename = time()."_".$user->id."_photo.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/employee/");
                 $image->move($path,$filename);
+                $filename = 'profile-pic/employee/'.$filename;
                 $result = $this->employeeModel::where('user_id',$user->id)
-                ->update(["photo"=>$filename]);
+                ->update(["avatar"=>$filename]);
                 return $this->responses::getSuccess([],"Image uploaded successfully");
             }
         }else{

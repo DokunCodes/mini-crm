@@ -37,7 +37,8 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': row.company_logo" >
+                                        <img alt="Image placeholder" :src="row.company_logo === null || row.company_logo === '' ?
+                                        'https://dummyimage.com/250x250/003852/fff.png&text='+row.name : row.company_logo" >
 
                                       </a>
                                       <div class="media-body">
@@ -86,24 +87,48 @@
               </p>
             <h2 class="text-center">{{editMode ? 'Edit Company' : 'Add Company'}}</h2>
               <form role="form">
+                  <div class="form-group">
                   <label for="company">Company Name</label>
                   <base-input class="input-group mb-3" id="company"
                                     placeholder="Company name"
+                                    v-validate="'required'"
+                                    name="name"
                                     v-model="model.name">
                         </base-input>
-
-
+                      <span class="is_invalid" v-show="errors.has('name')">{{errors.first('name')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="web">Website URL</label>
                   <base-input class="input-group mb-3" id="web"
                                     placeholder="Website URL"
+                                    v-validate="'required'"
+                                    name="url"
                                     v-model="model.url">
                         </base-input>
-
+                      <span class="is_invalid" v-show="errors.has('url')">{{errors.first('url')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="email">Email</label>
                   <base-input class="input-group mb-3" id="email"
                                     placeholder="Email"
+                                    v-validate="'required|email'"
+                                    name="email"
                                     v-model="model.email">
                         </base-input>
+                      <span class="is_invalid" v-show="errors.has('email')">{{errors.first('email')}}</span>
+                  </div>
+                  <div class="form-group">
+                      <label for="password">Password</label>
+                      <base-input class="input-group" id="password"
+                                  placeholder="Password"
+                                  required
+                                  name="password"
+                                  type="password"
+                                  v-validate="'required'"
+                                  v-model="model.password">
+                      </base-input>
+                      <span class="is_invalid" v-show="errors.has('password')">{{errors.first('password')}}</span>
+                  </div>
 
 
                         <div class="text-muted mt-2" v-show="!editMode">
@@ -130,15 +155,16 @@
     </div>
 </template>
 <script>
-  import employeeRepo from '../repository/users/EmployeeRepository';
+    import Vue from 'vue';
   import companyRepo from '../repository/users/CompanyRepository';
+
   export default {
     data() {
       return {
         employees:[],
         companies:[],
         title:'Companies List',
-        model:{name:"",url:"", email:"", company:"",company_id:""},
+        model:{name:"",url:"", email:"", company:"",password:"",company_id:""},
         showModal : false,
         editMode : false,
         submitProgress:false,
@@ -175,64 +201,72 @@
             this.logoSrc = null;
         },
         closeForm(){
-          this.showModal = false,
-          this.editMode = this.editMode ? false : true;
+          this.showModal = false;
+          this.editMode = !this.editMode;
         },
         addCompany(){
-          let data = new FormData();
-          data.append('logo', this.$refs.filePic.files[0]);
-            for(let field in this.model){
-                data.append(field, this.model[field]);
-            }
-            this.submitProgress = true;
-            companyRepo.addCompany(data)
-            .then(res=>{
-                this.getcompanies();
-                this.showModal = false;
-                this.submitProgress = false;
-                this.$notify({
-                  type: 'success',
-                  title: 'Company added successfully'
-                })
-            })
-            .catch(err=>{
-                if(err.status === 422){
-                    this.$notify({
-                        type: 'danger',
-                        title: err.data.message
-                    })
-                }
-                this.submitProgress = false;
+            this.$validator.validate().then(valid => {
+                    if(valid) {
+                        let data = new FormData();
+                        data.append('logo', this.$refs.filePic.files[0]);
+                        for (let field in this.model) {
+                            data.append(field, this.model[field]);
+                        }
+                        this.submitProgress = true;
+                        companyRepo.addCompany(data)
+                            .then(res => {
+                                this.getcompanies();
+                                this.showModal = false;
+                                this.submitProgress = false;
+                                Vue.$toast.success('Company added successfully');
+                            })
+                            .catch(err => {
+                                if (err.status === 422) {
+                                    Vue.$toast.error(err.data.message);
+                                }
+                                this.submitProgress = false;
+                            })
+                    }
             })
         },
         updateCompany(){
-          let data = new FormData();
-          let file = this.$refs.filePic.files[0];
-          if(file !== undefined){
-              data.append('profile_image', this.$refs.filePic.files[0]);
-              for(let field in this.model){
-                data.append(field, this.model[field]);
-              }
-          }else{
-            data = this.model;
-          }
-            this.submitProgress = true;
-            companyRepo.updateCompany(data)
-            .then(res=>{
-                this.getcompanies();
-                this.showModal = false;
-                this.submitProgress = false;
-                this.model.name = ""
-                this.model.url = ""
-                this.model.email = ""
-                this.model.company_id = ""
-                this.showModal = false;
-                this.editMode = false;
-                this.$notify({
-                  type: 'success',
-                  title: 'Company updated successfully'
-                })
-          })
+            this.$validator.validate().then(valid => {
+                    if(valid) {
+                        let data = new FormData();
+                        let file = this.$refs.filePic.files[0];
+                        if (file !== undefined) {
+                            data.append('profile_image', this.$refs.filePic.files[0]);
+                            for (let field in this.model) {
+                                data.append(field, this.model[field]);
+                            }
+                        } else {
+                            data = this.model;
+                        }
+                        this.submitProgress = true;
+
+                        companyRepo.updateCompany(data)
+                            .then(res => {
+                                this.getcompanies();
+                                this.showModal = false;
+                                this.submitProgress = false;
+                                this.model.name = ""
+                                this.model.url = ""
+                                this.model.password = ""
+                                this.model.email = ""
+                                this.model.company_id = ""
+                                this.showModal = false;
+                                this.editMode = false;
+                                Vue.$toast.success('Company updated successfully');
+
+                            })
+                            .catch(err => {
+                                if (err.status === 422) {
+                                    Vue.$toast.error(err.data.message);
+                                }
+                                this.submitProgress = false;
+                            })
+                    }
+            })
         },
         deleteCompany(row){
           let __this = this;
@@ -241,18 +275,39 @@
               .then(res=>{
                 let index = __this.companies.indexOf(row);
                 __this.companies.splice(index,1);
-                __this.$notify({
-                      type: 'success',
-                      title: 'Company deleted'
-                    })
+                  Vue.$toast.success('Company deleted');
               })
           })
 
+        },
+        customValidator(){
+            return {
+                custom:{
+                    name:{
+                        required:"Please enter company name",
+                    },
+                    url:{
+                        required:"Please enter company url",
+                    },
+                    email:{
+                        required:"Please enter company email",
+                    },
+                    password:{
+                        required: "Password is required for company admin login"
+                    }
+                }
+            }
         }
     },
     mounted(){
       this.getcompanies();
+      this.$validator.localize('en',this.customValidator());
     }
   };
 </script>
-<style></style>
+<style>
+    .is_invalid{
+        font-size: 13px;
+        color: red;
+    }
+</style>

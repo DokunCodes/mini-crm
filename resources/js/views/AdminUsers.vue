@@ -37,7 +37,8 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/admin/'+row.profile_photo" >
+                                        <img alt="Image placeholder" :src="row.profile_photo === null || row.profile_photo==='' ?
+                                        'https://dummyimage.com/300.png/09f/fff': row.profile_photo" >
 
                                       </a>
                                       <div class="media-body">
@@ -62,7 +63,7 @@
                                   </td>
                                 <td class="text-right">
                                     <base-button type="primary" class="btn btn-dark" size="sm" @click="editUser(row)" ><i class="fa fa-eraser" title="Edit"></i></base-button>
-                                    <base-button type="danger" class="btn btn-danger" size="sm" @click="deleteUser(row)" ><i class="fa fa-trash" title="Delete"></i></base-button>
+                                    <base-button v-if="row.role !=='super-admin'" type="danger" class="btn btn-danger" size="sm" @click="deleteUser(row)" ><i class="fa fa-trash" title="Delete"></i></base-button>
                                   </td>
 
                                 </template>
@@ -82,41 +83,58 @@
               </p>
             <h2 class="text-center">{{editMode ? 'Edit User' : 'Add User'}}</h2>
               <form role="form">
+                  <div class="form-group">
                   <label for="firstname">First Name</label>
                   <base-input class="input-group mb-3" id="firstname"
                                     placeholder="First name"
+                                    name="first_name"
+                                    v-validate="'required'"
                                     v-model="model.first_name">
                         </base-input>
-
+                      <span class="is_invalid" v-show="errors.has('first_name')">{{errors.first('first_name')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="lastname">Last Name</label>
                   <base-input class="input-group mb-3" id="lastname"
                                     placeholder="Last name"
+                                      name="last_name"
+                                      v-validate="'required'"
                                     v-model="model.last_name">
                         </base-input>
-
+                      <span class="is_invalid" v-show="errors.has('last_name')">{{errors.first('last_name')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="role">Role</label>
 
-                        <select class="form-control mt-2" v-model="model.role" id="role">
+                        <select class="form-control mt-2" v-validate="'required'" name="role" v-model="model.role" id="role">
                             <option value="">Select role</option>
                             <option value="admin">Admin</option>
                             <option value="sub-admin">Sub Admin</option>
 
                         </select>
-
+                      <span class="is_invalid" v-show="errors.has('role')">{{errors.first('role')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="email">Email</label>
                   <base-input class="input-group mb-3" id="email"
                                     placeholder="Email"
+                                    name="email"
+                                    v-validate="'required|email'"
                                     v-model="model.email">
                         </base-input>
-
+                      <span class="is_invalid" v-show="errors.has('email')">{{errors.first('email')}}</span>
+                  </div>
+                  <div class="form-group">
                   <label for="password">Password</label>
                   <base-input class="input-group" id="password"
                                     placeholder="Password"
-                                    type="password"
+                                      name="password"
+                                      type="password"
+                                      v-validate="'required'"
                                     v-model="model.password">
                         </base-input>
-
-
+                      <span class="is_invalid" v-show="errors.has('password')">{{errors.first('password')}}</span>
+                  </div>
                         <div class="text-muted mt-2" v-show="!editMode">
                             <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
@@ -124,8 +142,8 @@
                                       </a>
                                       <div class="media-body">
                                         <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
-                                        <base-button type="dark" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Click to select logo</base-button>
-                                        <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
+                                        <base-button type="dark" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Click to select avatar</base-button>
+                                        <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove avatar</base-button>
                                       </div>
                                     </div>
 
@@ -141,6 +159,7 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue';
   import adminRepo from '../repository/users/AdminRepository';
   export default {
     data() {
@@ -187,54 +206,61 @@
             this.logoSrc = null;
         },
         addUser(){
-          let data = new FormData();
-          data.append('profile_logo', this.$refs.filePic.files[0]);
-            for(let field in this.model){
-                data.append(field, this.model[field]);
-            }
-            this.submitProgress = true;
-            adminRepo.addUser(data)
-            .then(res=>{
-                this.getUsers();
-                this.showModal = false;
-                this.submitProgress = false;
-                this.$notify({
-                  type: 'success',
-                  title: 'User added successfully'
-                })
-            })
-            .catch(err=>{
-                if(err.status === 422){
-                    this.$notify({
-                        type: 'danger',
-                        title: err.data.message
-                    })
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    let data = new FormData();
+                    data.append('profile_logo', this.$refs.filePic.files[0]);
+                    for (let field in this.model) {
+                        data.append(field, this.model[field]);
+                    }
+                    this.submitProgress = true;
+                    adminRepo.addUser(data)
+                        .then(res => {
+                            this.getUsers();
+                            this.showModal = false;
+                            this.submitProgress = false;
+                            Vue.$toast.success('User added successfully');
+
+                        })
+                        .catch(err => {
+                            if (err.status === 422) {
+
+                                Vue.$toast.error(err.data.message);
+                            }
+                            this.submitProgress = false;
+                        })
                 }
-                this.submitProgress = false;
             })
         },
         updateUser(){
-          let data = new FormData();
-          let file = this.$refs.filePic.files[0];
-            this.submitProgress = true;
-            adminRepo.updateUser(this.model)
-            .then(res=>{
-                this.getUsers();
-                this.showModal = false;
-                this.submitProgress = false;
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    let data = new FormData();
+                    let file = this.$refs.filePic.files[0];
+                    this.submitProgress = true;
+                    adminRepo.updateUser(this.model)
+                        .then(res => {
+                            this.getUsers();
+                            this.showModal = false;
+                            this.submitProgress = false;
 
-                this.model.first_name = ""
-                this.model.last_name = ""
-                this.model.email = ""
-                this.model.user_id = ""
-                this.showModal = false;
-                this.editMode = false;
+                            this.model.first_name = ""
+                            this.model.last_name = ""
+                            this.model.email = ""
+                            this.model.user_id = ""
+                            this.showModal = false;
+                            this.editMode = false;
+                            Vue.$toast.success('User updated successfully');
 
-                this.$notify({
-                  type: 'success',
-                  title: 'User updated successfully'
-                })
-          })
+                        }) .catch(err => {
+                        if (err.status === 422) {
+
+                            Vue.$toast.error(err.data.message);
+                        }
+                        this.submitProgress = false;
+                    })
+                }
+            })
         },
         deleteUser(row){
           let __this = this;
@@ -243,17 +269,41 @@
               .then(res=>{
                 let index = __this.users.indexOf(row);
                 __this.users.splice(index,1);
-                __this.$notify({
-                      type: 'success',
-                      title: 'user deleted'
-                    })
+                  Vue.$toast.success('User deleted');
               })
           })
+        },
+        customValidator(){
+            return {
+                custom:{
+                    first_name:{
+                        required:"Please enter admin first name",
+                    },
+                    last_name:{
+                        required:"Please enter admin last name",
+                    },
+                    email:{
+                        required:"Please enter admin email",
+                    },
+                    password:{
+                        required:"Please enter admin password",
+                    },
+                    role:{
+                        required:"Please select admin role",
+                    }
+                }
+            }
         }
     },
     mounted(){
       this.getUsers();
+        this.$validator.localize('en',this.customValidator());
     }
   };
 </script>
-<style></style>
+<style>
+    .is_invalid{
+        font-size: 13px;
+        color: red;
+    }
+</style>

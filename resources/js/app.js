@@ -6,8 +6,9 @@ import router from './router'
 import VueAlertify from 'vue-alertify'
 const VeeValidate   = require('vee-validate');
 import BootStrapVue  from 'bootstrap-vue'
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
-//import './registerServiceWorker'
 import CRMDashboard from './plugins/crmdashboard'
 Vue.use(BootStrapVue);
 Vue.use(VueAlertify,{
@@ -29,6 +30,10 @@ theme: {
   // class name attached to cancel button
   cancel: 'ajs-cancel',
 },
+});
+
+Vue.use(VueToast, {
+    position: 'top-right'
 });
 
 Vue.config.productionTip = false
